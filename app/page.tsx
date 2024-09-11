@@ -43,7 +43,6 @@ const TodoPage = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <Title />
       <div className="mb-4 flex">
         <TodoButton onOpenModal={() => setModalOpen(true)} />
       </div>
