@@ -54,16 +54,6 @@ const TodoPage = () => {
     setTodos(todos.filter((_, i) => i !== index));
   };
 
-  const restoreTodo = (index: number) => {
-    const restoredTodo = trashTodos[index];
-    setTodos([...todos, restoredTodo]);
-    setTrashTodos(trashTodos.filter((_, i) => i !== index));
-  };
-
-  const permanentlyDeleteTodo = (index: number) => {
-    setTrashTodos(trashTodos.filter((_, i) => i !== index));
-  };
-
   return (
     <div className="container mx-auto p-4">
       <div className="mb-4 flex">
