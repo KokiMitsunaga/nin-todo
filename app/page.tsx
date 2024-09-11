@@ -27,9 +27,12 @@ const TodoPage = () => {
     setTodos([...todos, { title, description, priority }]);
   };
 
-  const updateTodo = (index: number, title: string) => {
+  const updateTodo = (
+    index: number,
+    updatedTodo: { title: string; description: string; priority: number }
+  ) => {
     const updatedTodos = todos.map((todo, i) =>
-      i === index ? { ...todo, title } : todo
+      i === index ? updatedTodo : todo
     );
     setTodos(updatedTodos);
   };
