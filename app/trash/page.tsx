@@ -1,81 +1,81 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { IoTrash, IoArrowUndo } from "react-icons/io5";
-
-interface DeletedTodo {
-  title: string;
-  index: number;
-}
+import ReButton from "./components/ReButton";
+import RemoveButton from "../components/RemoveButton";
+import ConfirmRestoreModal from "./components/ConfirmRestoreModal";
+import ConfirmDeleteModal from "../components/ConfirmDeleteModal";
 
 const TrashPage = () => {
-  const [deletedTodos, setDeletedTodos] = useState<DeletedTodo[]>([]);
-  const router = useRouter();
+  const [trashTodos, setTrashTodos] = useState<
+    { title: string; description: string; priority: number }[]
+  >([]);
+  const [restoreModalOpen, setRestoreModalOpen] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
   useEffect(() => {
-    const storedDeletedTodos = localStorage.getItem("deletedTodos");
-    if (storedDeletedTodos) {
-      setDeletedTodos(JSON.parse(storedDeletedTodos));
+    const savedTrashTodos = localStorage.getItem("trashTodos");
+    if (savedTrashTodos) {
+      setTrashTodos(JSON.parse(savedTrashTodos));
     }
   }, []);
 
-  const handleRestore = (index: number) => {
-    const todoToRestore = deletedTodos.find((todo) => todo.index === index);
-    if (todoToRestore) {
-      const storedTodos = localStorage.getItem("todos");
-      if (storedTodos) {
-        const todos = JSON.parse(storedTodos);
-        todos.push({
-          title: todoToRestore.title,
-          description: "",
-          priority: 1,
-        });
-        localStorage.setItem("todos", JSON.stringify(todos));
-      }
+  const handleRestoreClick = (index: number) => {
+    setSelectedIndex(index);
+    setRestoreModalOpen(true);
+  };
 
-      const updatedDeletedTodos = deletedTodos.filter(
-        (todo) => todo.index !== index
-      );
-      localStorage.setItem("deletedTodos", JSON.stringify(updatedDeletedTodos));
-      setDeletedTodos(updatedDeletedTodos);
+  const handleDeleteClick = (index: number) => {
+    setSelectedIndex(index);
+    setDeleteModalOpen(true);
+  };
 
-      router.push("/");
+  const restoreTodo = () => {
+    if (selectedIndex !== null) {
+      const restoredTodo = trashTodos[selectedIndex];
+      const todos = JSON.parse(localStorage.getItem("todos") || "[]");
+      localStorage.setItem("todos", JSON.stringify([...todos, restoredTodo]));
+      setTrashTodos(trashTodos.filter((_, i) => i !== selectedIndex));
+      localStorage.setItem("trashTodos", JSON.stringify(trashTodos));
+      setRestoreModalOpen(false);
+      setSelectedIndex(null);
     }
   };
 
-  const handleDelete = (index: number) => {
-    const updatedDeletedTodos = deletedTodos.filter(
-      (todo) => todo.index !== index
-    );
-    localStorage.setItem("deletedTodos", JSON.stringify(updatedDeletedTodos));
-    setDeletedTodos(updatedDeletedTodos);
+  const permanentlyDeleteTodo = () => {
+    if (selectedIndex !== null) {
+      setTrashTodos(trashTodos.filter((_, i) => i !== selectedIndex));
+      localStorage.setItem("trashTodos", JSON.stringify(trashTodos));
+      setDeleteModalOpen(false);
+      setSelectedIndex(null);
+    }
   };
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Trash</h1>
+      <h1 className="text-2xl mb-4">Trash</h1>
       <ul className="list-disc">
-        {deletedTodos.map((todo, index) => (
+        {trashTodos.map((todo, index) => (
           <li key={index} className="flex justify-between items-center mb-2">
             <span className="flex-grow">{todo.title}</span>
-            <button
-              onClick={() => handleRestore(todo.index)}
-              className="bg-blue-500 text-white px-4 py-2 rounded flex items-center mr-2"
-            >
-              <IoArrowUndo size={20} />
-              <span className="ml-2">Restore</span>
-            </button>
-            <button
-              onClick={() => handleDelete(todo.index)}
-              className="bg-red-500 text-white px-4 py-2 rounded flex items-center"
-            >
-              <IoTrash size={20} />
-              <span className="ml-2">Delete</span>
-            </button>
+            <ReButton onClick={() => handleRestoreClick(index)} />
+            <RemoveButton onClick={() => handleDeleteClick(index)} />
           </li>
         ))}
       </ul>
+
+      <ConfirmRestoreModal
+        isOpen={restoreModalOpen}
+        onClose={() => setRestoreModalOpen(false)}
+        onConfirm={restoreTodo}
+      />
+
+      <ConfirmDeleteModal
+        isOpen={deleteModalOpen}
+        onClose={() => setDeleteModalOpen(false)}
+        onConfirm={permanentlyDeleteTodo}
+      />
     </div>
   );
 };
