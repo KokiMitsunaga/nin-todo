@@ -61,10 +61,13 @@ const TodoPage = () => {
   return (
     <div className="container mx-auto p-4">
       <TodoList todos={todos} updateTodo={updateTodo} removeTodo={removeTodo} />
-      <div className="flex items-center justify-end gap-3">
+
+      {/* ボタンを画面の右下に固定する */}
+      <div className="fixed bottom-4 right-4 flex gap-3">
         <TrashButton />
         <TodoButton onOpenModal={() => setModalOpen(true)} />
       </div>
+
       <Modal
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
