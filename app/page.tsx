@@ -2,13 +2,15 @@
 
 import { useState, useEffect } from "react";
 import Title from "./components/Title";
-import TodoInput from "./components/TodoInput";
 import TodoButton from "./components/TodoButton";
 import TodoList from "./components/TodoList";
+import Modal from "./components/Modal";
 
 const TodoPage = () => {
-  const [todos, setTodos] = useState<string[]>([]);
-  const [newTodo, setNewTodo] = useState("");
+  const [todos, setTodos] = useState<
+    { title: string; description: string; priority: number }[]
+  >([]);
+  const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     const savedTodos = localStorage.getItem("todos");
@@ -21,30 +23,33 @@ const TodoPage = () => {
     localStorage.setItem("todos", JSON.stringify(todos));
   }, [todos]);
 
-  const addTodo = () => {
-    if (newTodo.trim() === "") return;
-    setTodos([...todos, newTodo]);
-    setNewTodo("");
+  const addTodo = (title: string, description: string, priority: number) => {
+    setTodos([...todos, { title, description, priority }]);
+  };
+
+  const updateTodo = (index: number, title: string) => {
+    const updatedTodos = todos.map((todo, i) =>
+      i === index ? { ...todo, title } : todo
+    );
+    setTodos(updatedTodos);
   };
 
   const removeTodo = (index: number) => {
     setTodos(todos.filter((_, i) => i !== index));
   };
 
-  const updateTodo = (index: number, newTodo: string) => {
-    const updatedTodos = [...todos];
-    updatedTodos[index] = newTodo;
-    setTodos(updatedTodos);
-  };
-
   return (
     <div className="container mx-auto p-4">
       <Title />
       <div className="mb-4 flex">
-        <TodoInput newTodo={newTodo} setNewTodo={setNewTodo} />
-        <TodoButton addTodo={addTodo} />
+        <TodoButton onOpenModal={() => setModalOpen(true)} />
       </div>
       <TodoList todos={todos} updateTodo={updateTodo} removeTodo={removeTodo} />
+      <Modal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        onAddTodo={addTodo}
+      />
     </div>
   );
 };
