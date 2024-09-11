@@ -4,8 +4,8 @@ import { useState } from "react";
 import { FaCheck, FaXmark } from "react-icons/fa6";
 
 interface TodoListProps {
-  todos: string[];
-  updateTodo: (index: number, newTodo: string) => void;
+  todos: { title: string; description: string; priority: number }[];
+  updateTodo: (index: number, title: string) => void;
   removeTodo: (index: number) => void;
 }
 
@@ -15,7 +15,7 @@ const TodoList = ({ todos, updateTodo, removeTodo }: TodoListProps) => {
 
   const handleEditClick = (index: number) => {
     setEditIndex(index);
-    setEditValue(todos[index]);
+    setEditValue(todos[index].title);
   };
 
   const handleSaveClick = () => {
@@ -58,7 +58,7 @@ const TodoList = ({ todos, updateTodo, removeTodo }: TodoListProps) => {
             </div>
           ) : (
             <>
-              <span className="flex-grow">{todo}</span>
+              <span className="flex-grow">{todo.title}</span>
               <EditButton onClick={() => handleEditClick(index)} />
               <RemoveButton onClick={() => removeTodo(index)} />
             </>

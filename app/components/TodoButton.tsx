@@ -1,17 +1,17 @@
 import { IoIosAdd } from "react-icons/io";
 
 interface TodoButtonProps {
-  addTodo: () => void;
+  onOpenModal: () => void;
 }
 
-const TodoButton = ({ addTodo }: TodoButtonProps) => {
+const TodoButton = ({ onOpenModal }: TodoButtonProps) => {
   return (
     <button
-      onClick={addTodo}
+      onClick={onOpenModal}
       className="bg-blue-500 text-white px-4 py-2 rounded flex items-center"
     >
       <IoIosAdd size={20} />
-      <span>Add</span>
+      <span className="ml-2">Add</span>
     </button>
   );
 };
