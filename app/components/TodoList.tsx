@@ -1,6 +1,7 @@
 import RemoveButton from "./RemoveButton";
 import EditButton from "./EditButton";
 import { useState } from "react";
+import { FaCheck, FaXmark } from "react-icons/fa6";
 
 interface TodoListProps {
   todos: string[];
@@ -25,6 +26,11 @@ const TodoList = ({ todos, updateTodo, removeTodo }: TodoListProps) => {
     }
   };
 
+  const handleCancelClick = () => {
+    setEditIndex(null);
+    setEditValue("");
+  };
+
   return (
     <ul className="list-disc">
       {todos.map((todo, index) => (
@@ -39,9 +45,15 @@ const TodoList = ({ todos, updateTodo, removeTodo }: TodoListProps) => {
               />
               <button
                 onClick={handleSaveClick}
-                className="bg-green-500 text-white px-2 py-1 rounded"
+                className="bg-green-500 text-white px-2 py-1 rounded flex items-center mr-2"
               >
-                Save
+                <FaCheck size={16} />
+              </button>
+              <button
+                onClick={handleCancelClick}
+                className="bg-red-500 text-white px-2 py-1 rounded flex items-center"
+              >
+                <FaXmark size={16} />
               </button>
             </div>
           ) : (
