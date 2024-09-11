@@ -60,11 +60,11 @@ const TodoPage = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <div className="mb-4 flex">
+      <TodoList todos={todos} updateTodo={updateTodo} removeTodo={removeTodo} />
+      <div className="flex items-center justify-end gap-3">
+        <TrashButton />
         <TodoButton onOpenModal={() => setModalOpen(true)} />
       </div>
-      <TodoList todos={todos} updateTodo={updateTodo} removeTodo={removeTodo} />
-      <TrashButton />
       <Modal
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}

@@ -13,7 +13,7 @@ const TrashButton = () => {
   return (
     <button
       onClick={handleClick}
-      className="fixed bottom-4 right-32 text-pink-600 bg-white p-4 rounded-full border flex items-center justify-center -z-10"
+      className="text-pink-600 bg-white p-4 rounded-full border flex items-center justify-center -z-10"
     >
       <IoTrash size={24} />
     </button>
