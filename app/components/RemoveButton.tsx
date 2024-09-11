@@ -6,7 +6,7 @@ interface RemoveButtonProps {
 
 const RemoveButton = ({ onClick }: RemoveButtonProps) => {
   return (
-    <button onClick={onClick} className="text-red-500 flex items-center">
+    <button onClick={onClick} className="text-red-500 flex items-center pl-3">
       <MdDelete size={20} />
     </button>
   );

@@ -1,71 +1,61 @@
 import RemoveButton from "./RemoveButton";
 import EditButton from "./EditButton";
 import { useState } from "react";
-import { FaCheck, FaXmark } from "react-icons/fa6";
+import Modal from "./Modal";
 
 interface TodoListProps {
   todos: { title: string; description: string; priority: number }[];
-  updateTodo: (index: number, title: string) => void;
+  updateTodo: (
+    index: number,
+    updatedTodo: { title: string; description: string; priority: number }
+  ) => void;
   removeTodo: (index: number) => void;
 }
 
 const TodoList = ({ todos, updateTodo, removeTodo }: TodoListProps) => {
   const [editIndex, setEditIndex] = useState<number | null>(null);
-  const [editValue, setEditValue] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
 
   const handleEditClick = (index: number) => {
     setEditIndex(index);
-    setEditValue(todos[index].title);
+    setModalOpen(true);
   };
 
-  const handleSaveClick = () => {
+  const handleSaveTodo = (
+    title: string,
+    description: string,
+    priority: number
+  ) => {
     if (editIndex !== null) {
-      updateTodo(editIndex, editValue);
+      updateTodo(editIndex, { title, description, priority });
       setEditIndex(null);
-      setEditValue("");
     }
-  };
-
-  const handleCancelClick = () => {
-    setEditIndex(null);
-    setEditValue("");
+    setModalOpen(false);
   };
 
   return (
-    <ul className="list-disc">
-      {todos.map((todo, index) => (
-        <li key={index} className="flex justify-between items-center mb-2">
-          {editIndex === index ? (
-            <div className="flex-grow flex items-center">
-              <input
-                type="text"
-                value={editValue}
-                onChange={(e) => setEditValue(e.target.value)}
-                className="border p-1 mr-2 flex-grow"
-              />
-              <button
-                onClick={handleSaveClick}
-                className="bg-green-500 text-white px-2 py-1 rounded flex items-center mr-2"
-              >
-                <FaCheck size={16} />
-              </button>
-              <button
-                onClick={handleCancelClick}
-                className="bg-red-500 text-white px-2 py-1 rounded flex items-center"
-              >
-                <FaXmark size={16} />
-              </button>
-            </div>
-          ) : (
-            <>
-              <span className="flex-grow">{todo.title}</span>
-              <EditButton onClick={() => handleEditClick(index)} />
-              <RemoveButton onClick={() => removeTodo(index)} />
-            </>
-          )}
-        </li>
-      ))}
-    </ul>
+    <div>
+      <ul className="list-disc">
+        {todos.map((todo, index) => (
+          <li key={index} className="flex justify-between items-center mb-2">
+            <span className="flex-grow">{todo.title}</span>
+            <EditButton onClick={() => handleEditClick(index)} />
+            <RemoveButton onClick={() => removeTodo(index)} />
+          </li>
+        ))}
+      </ul>
+
+      {editIndex !== null && (
+        <Modal
+          isOpen={modalOpen}
+          onClose={() => setModalOpen(false)}
+          onAddTodo={handleSaveTodo}
+          initialTitle={todos[editIndex].title}
+          initialDescription={todos[editIndex].description}
+          initialPriority={todos[editIndex].priority}
+        />
+      )}
+    </div>
   );
 };
 

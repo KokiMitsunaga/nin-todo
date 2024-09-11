@@ -1,18 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaCheck, FaXmark } from "react-icons/fa6";
 
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   onAddTodo: (title: string, description: string, priority: number) => void;
+  initialTitle?: string;
+  initialDescription?: string;
+  initialPriority?: number;
 }
 
-const Modal = ({ isOpen, onClose, onAddTodo }: ModalProps) => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [priority, setPriority] = useState(1);
+const Modal = ({
+  isOpen,
+  onClose,
+  onAddTodo,
+  initialTitle = "",
+  initialDescription = "",
+  initialPriority = 1,
+}: ModalProps) => {
+  const [title, setTitle] = useState(initialTitle);
+  const [description, setDescription] = useState(initialDescription);
+  const [priority, setPriority] = useState(initialPriority);
 
-  const handleAddClick = () => {
+  useEffect(() => {
+    setTitle(initialTitle);
+    setDescription(initialDescription);
+    setPriority(initialPriority);
+  }, [initialTitle, initialDescription, initialPriority]);
+
+  const handleSaveClick = () => {
     if (title.trim() && priority >= 1 && priority <= 4) {
       onAddTodo(title, description, priority);
       resetForm();
@@ -26,9 +42,9 @@ const Modal = ({ isOpen, onClose, onAddTodo }: ModalProps) => {
   };
 
   const resetForm = () => {
-    setTitle("");
-    setDescription("");
-    setPriority(1);
+    setTitle(initialTitle);
+    setDescription(initialDescription);
+    setPriority(initialPriority);
   };
 
   const isFormValid = title.trim() !== "" && priority >= 1 && priority <= 4;
@@ -39,7 +55,7 @@ const Modal = ({ isOpen, onClose, onAddTodo }: ModalProps) => {
     <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center">
       <div className="bg-white p-6 rounded-lg shadow-lg w-10/12">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold">Add Todo</h2>
+          <h2 className="text-xl font-semibold">Edit Todo</h2>
           <button onClick={handleClose} className="text-red-400">
             <FaXmark size={20} />
           </button>
@@ -82,7 +98,7 @@ const Modal = ({ isOpen, onClose, onAddTodo }: ModalProps) => {
         </div>
         <div className="flex justify-end">
           <button
-            onClick={handleAddClick}
+            onClick={handleSaveClick}
             disabled={!isFormValid}
             className={`px-4 py-2 rounded flex items-center ${
               isFormValid
@@ -91,7 +107,7 @@ const Modal = ({ isOpen, onClose, onAddTodo }: ModalProps) => {
             }`}
           >
             <FaCheck size={16} />
-            <span className="ml-1">Add</span>
+            <span className="ml-1">Save</span>
           </button>
         </div>
       </div>
