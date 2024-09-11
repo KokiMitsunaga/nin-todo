@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Title from "./components/Title";
 import TodoButton from "./components/TodoButton";
 import TodoList from "./components/TodoList";
 import Modal from "./components/Modal";
@@ -43,7 +42,6 @@ const TodoPage = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <Title />
       <div className="mb-4 flex">
         <TodoButton onOpenModal={() => setModalOpen(true)} />
       </div>

@@ -2,6 +2,7 @@ import RemoveButton from "./RemoveButton";
 import EditButton from "./EditButton";
 import { useState } from "react";
 import Modal from "./Modal";
+import ConfirmDeleteModal from "./ConfirmDeleteModal";
 
 interface TodoListProps {
   todos: { title: string; description: string; priority: number }[];
@@ -15,6 +16,8 @@ interface TodoListProps {
 const TodoList = ({ todos, updateTodo, removeTodo }: TodoListProps) => {
   const [editIndex, setEditIndex] = useState<number | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [deleteIndex, setDeleteIndex] = useState<number | null>(null);
 
   const handleEditClick = (index: number) => {
     setEditIndex(index);
@@ -33,6 +36,19 @@ const TodoList = ({ todos, updateTodo, removeTodo }: TodoListProps) => {
     setModalOpen(false);
   };
 
+  const handleRemoveClick = (index: number) => {
+    setDeleteIndex(index);
+    setDeleteModalOpen(true);
+  };
+
+  const handleConfirmDelete = () => {
+    if (deleteIndex !== null) {
+      removeTodo(deleteIndex);
+      setDeleteIndex(null);
+    }
+    setDeleteModalOpen(false);
+  };
+
   return (
     <div>
       <ul className="list-disc">
@@ -40,7 +56,7 @@ const TodoList = ({ todos, updateTodo, removeTodo }: TodoListProps) => {
           <li key={index} className="flex justify-between items-center mb-2">
             <span className="flex-grow">{todo.title}</span>
             <EditButton onClick={() => handleEditClick(index)} />
-            <RemoveButton onClick={() => removeTodo(index)} />
+            <RemoveButton onClick={() => handleRemoveClick(index)} />
           </li>
         ))}
       </ul>
@@ -55,6 +71,12 @@ const TodoList = ({ todos, updateTodo, removeTodo }: TodoListProps) => {
           initialPriority={todos[editIndex].priority}
         />
       )}
+
+      <ConfirmDeleteModal
+        isOpen={deleteModalOpen}
+        onClose={() => setDeleteModalOpen(false)}
+        onConfirm={handleConfirmDelete}
+      />
     </div>
   );
 };
