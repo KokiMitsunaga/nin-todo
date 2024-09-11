@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import TrashButton from "./components/TrashButton";
-import Title from "./components/Title";
+import TrashButton from "./_components/TrashButton";
+import Title from "./_components/Title";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",

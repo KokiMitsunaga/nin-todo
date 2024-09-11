@@ -1,18 +1,15 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import TodoButton from "./components/TodoButton";
-import TodoList from "./components/TodoList";
-import Modal from "./components/Modal";
-import TrashButton from "./components/TrashButton";
+import TodoButton from "./_components/TodoButton";
+import TodoList from "./_components/TodoList";
+import Modal from "./_components/Modal";
+import TrashButton from "./_components/TrashButton";
+import { Todo } from "./_types/types";
 
 const TodoPage = () => {
-  const [todos, setTodos] = useState<
-    { title: string; description: string; priority: number }[]
-  >([]);
-  const [trashTodos, setTrashTodos] = useState<
-    { title: string; description: string; priority: number }[]
-  >([]);
+  const [todos, setTodos] = useState<Todo[]>([]);
+  const [trashTodos, setTrashTodos] = useState<Todo[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
@@ -34,14 +31,21 @@ const TodoPage = () => {
     localStorage.setItem("trashTodos", JSON.stringify(trashTodos));
   }, [trashTodos]);
 
-  const addTodo = (title: string, description: string, priority: number) => {
-    setTodos([...todos, { title, description, priority }]);
+  const addTodo = (
+    title: string,
+    description: string,
+    priority: number,
+    dueDate?: string,
+    dueTime?: string,
+    allDay?: boolean
+  ) => {
+    setTodos([
+      ...todos,
+      { title, description, priority, dueDate, dueTime, allDay },
+    ]);
   };
 
-  const updateTodo = (
-    index: number,
-    updatedTodo: { title: string; description: string; priority: number }
-  ) => {
+  const updateTodo = (index: number, updatedTodo: Todo) => {
     const updatedTodos = todos.map((todo, i) =>
       i === index ? updatedTodo : todo
     );
