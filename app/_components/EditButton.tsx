@@ -6,7 +6,7 @@ interface EditButtonProps {
 
 const EditButton = ({ onClick }: EditButtonProps) => {
   return (
-    <button onClick={onClick} className="text-blue-500 flex items-center">
+    <button onClick={onClick} className="text-blue-500 flex items-center ml-4">
       <MdEdit size={20} />
     </button>
   );

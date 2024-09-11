@@ -1,10 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import ReButton from "./components/ReButton";
-import RemoveButton from "../components/RemoveButton";
-import ConfirmRestoreModal from "./components/ConfirmRestoreModal";
-import ConfirmDeleteModal from "../components/ConfirmDeleteModal";
+import ReButton from "./_components/ReButton";
+import RemoveButton from "../_components/RemoveButton";
+import ConfirmRestoreModal from "./_components/ConfirmRestoreModal";
+import ConfirmDeleteModal from "../_components/ConfirmDeleteModal";
 
 const TrashPage = () => {
   const [trashTodos, setTrashTodos] = useState<
