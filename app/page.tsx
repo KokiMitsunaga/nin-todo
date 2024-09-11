@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Title from "./components/Title";
 import TodoButton from "./components/TodoButton";
 import TodoList from "./components/TodoList";
 import Modal from "./components/Modal";
