@@ -35,9 +35,16 @@ const TrashPage = () => {
     if (selectedIndex !== null) {
       const restoredTodo = trashTodos[selectedIndex];
       const todos = JSON.parse(localStorage.getItem("todos") || "[]");
-      localStorage.setItem("todos", JSON.stringify([...todos, restoredTodo]));
-      setTrashTodos(trashTodos.filter((_, i) => i !== selectedIndex));
-      localStorage.setItem("trashTodos", JSON.stringify(trashTodos));
+      const updatedTodos = [...todos, restoredTodo];
+
+      localStorage.setItem("todos", JSON.stringify(updatedTodos));
+
+      const updatedTrashTodos = trashTodos.filter(
+        (_, i) => i !== selectedIndex
+      );
+      setTrashTodos(updatedTrashTodos);
+      localStorage.setItem("trashTodos", JSON.stringify(updatedTrashTodos));
+
       setRestoreModalOpen(false);
       setSelectedIndex(null);
     }
@@ -45,8 +52,12 @@ const TrashPage = () => {
 
   const permanentlyDeleteTodo = () => {
     if (selectedIndex !== null) {
-      setTrashTodos(trashTodos.filter((_, i) => i !== selectedIndex));
-      localStorage.setItem("trashTodos", JSON.stringify(trashTodos));
+      const updatedTrashTodos = trashTodos.filter(
+        (_, i) => i !== selectedIndex
+      );
+      setTrashTodos(updatedTrashTodos);
+      localStorage.setItem("trashTodos", JSON.stringify(updatedTrashTodos));
+
       setDeleteModalOpen(false);
       setSelectedIndex(null);
     }
