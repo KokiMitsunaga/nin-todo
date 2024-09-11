@@ -8,7 +8,7 @@ const TodoButton = ({ onOpenModal }: TodoButtonProps) => {
   return (
     <button
       onClick={onOpenModal}
-      className="bg-blue-500 text-white px-4 py-2 rounded flex items-center"
+      className="fixed bottom-4 right-4 bg-pink-600 text-white p-4 rounded-full border flex items-center justify-center -z-10"
     >
       <IoIosAdd size={20} />
       <span className="ml-2">Add</span>
