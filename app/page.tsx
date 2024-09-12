@@ -21,11 +21,12 @@ const TodoPage = () => {
   useEffect(() => {
     const savedTodos = localStorage.getItem("todos");
     const savedTrashTodos = localStorage.getItem("trashTodos");
-    const savedCategories = localStorage.getItem("categories");
-
-    if (savedTodos) setTodos(JSON.parse(savedTodos));
-    if (savedTrashTodos) setTrashTodos(JSON.parse(savedTrashTodos));
-    if (savedCategories) setCategories(JSON.parse(savedCategories));
+    if (savedTodos) {
+      setTodos(JSON.parse(savedTodos));
+    }
+    if (savedTrashTodos) {
+      setTrashTodos(JSON.parse(savedTrashTodos));
+    }
   }, []);
 
   useEffect(() => {
@@ -35,10 +36,6 @@ const TodoPage = () => {
   useEffect(() => {
     localStorage.setItem("trashTodos", JSON.stringify(trashTodos));
   }, [trashTodos]);
-
-  useEffect(() => {
-    localStorage.setItem("categories", JSON.stringify(categories));
-  }, [categories]);
 
   const addTodo = (
     title: string,
