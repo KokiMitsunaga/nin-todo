@@ -8,6 +8,7 @@ interface CategoryBarProps {
   selectedCategory: string;
   onAddCategory: (category: string) => void;
   onSelectCategory: (category: string) => void;
+  onEditCategory: (category: string) => void; // 追加
 }
 
 const CategoryBar = ({
@@ -15,6 +16,7 @@ const CategoryBar = ({
   selectedCategory,
   onAddCategory,
   onSelectCategory,
+  onEditCategory, // 追加
 }: CategoryBarProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -30,7 +32,13 @@ const CategoryBar = ({
           {categories.map((category, index) => (
             <button
               key={index}
-              onClick={() => onSelectCategory(category)}
+              onClick={() => {
+                if (selectedCategory === category) {
+                  onEditCategory(category); // 追加: 同じカテゴリーを押すと修正モーダル
+                } else {
+                  onSelectCategory(category);
+                }
+              }}
               className={`mr-4 pb-2 whitespace-nowrap ${
                 selectedCategory === category
                   ? "border-b-2 border-pink-600 text-pink-600"
