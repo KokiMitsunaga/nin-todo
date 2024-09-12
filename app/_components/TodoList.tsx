@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import EditButton from "./EditButton";
 import Modal from "./Modal";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
 import { Todo } from "../_types/types";
@@ -28,7 +27,7 @@ const TodoList = ({
     setSelectedTodos(selectedTodos);
   }, [selectedIds, todos, setSelectedTodos]);
 
-  const handleEditClick = (index: number) => {
+  const handleItemClick = (index: number) => {
     setEditIndex(index);
     setModalOpen(true);
   };
@@ -84,32 +83,34 @@ const TodoList = ({
     <div className="bg-gray-100 px-4 rounded shadow-md">
       <ul className="list-none divide-y divide-gray-300">
         {todos.map((todo, index) => (
-          <li key={index} className="py-2 flex justify-between items-center">
+          <li
+            key={index}
+            className="py-2 flex justify-between items-center cursor-pointer text-lg"
+            onClick={() => handleItemClick(index)}
+          >
             <input
               type="checkbox"
-              className="mr-2"
+              className="mr-4 w-5 h-5"
               checked={selectedIds.includes(index)}
               onChange={() => handleCheckboxChange(index)}
+              onClick={(e) => e.stopPropagation()}
             />
             <div className="flex flex-col flex-grow min-w-0">
-              <span className="font-semibold break-words whitespace-pre-wrap">
+              <span className="font-semibold break-words whitespace-pre-wrap text-lg">
                 {todo.title}
               </span>
               {todo.dueDate && (
-                <span className="text-gray-500 text-sm">
+                <span className="text-gray-500 text-base">
                   {todo.allDay
                     ? todo.dueDate
                     : `${todo.dueDate} ${todo.dueTime}`}
                 </span>
               )}
             </div>
-            <div className="flex items-center space-x-2 flex-shrink-0">
-              <EditButton onClick={() => handleEditClick(index)} />
-            </div>
           </li>
         ))}
       </ul>
-      {modalOpen && (
+      {modalOpen && editIndex !== null && (
         <Modal
           isOpen={modalOpen}
           onClose={() => setModalOpen(false)}
