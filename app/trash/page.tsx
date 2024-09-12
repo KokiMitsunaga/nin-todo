@@ -37,11 +37,11 @@ const TrashPage = () => {
   };
 
   const handleCheckboxChange = (todo: Todo, isChecked: boolean) => {
-    if (isChecked) {
-      setSelectedTodos([...selectedTodos, todo]);
-    } else {
-      setSelectedTodos(selectedTodos.filter((t) => t !== todo));
-    }
+    setSelectedTodos((prevSelected) =>
+      isChecked
+        ? [...prevSelected, todo]
+        : prevSelected.filter((t) => t !== todo)
+    );
   };
 
   const restoreTodo = (selectedCategory: string) => {
@@ -51,9 +51,7 @@ const TrashPage = () => {
 
       const updatedTodos = {
         ...todos,
-        [selectedCategory]: todos[selectedCategory]
-          ? [...todos[selectedCategory], restoredTodo]
-          : [restoredTodo],
+        [selectedCategory]: [...(todos[selectedCategory] || []), restoredTodo],
       };
 
       localStorage.setItem("todos", JSON.stringify(updatedTodos));
@@ -69,6 +67,7 @@ const TrashPage = () => {
     }
   };
 
+  // Permanently delete selected todos
   const permanentlyDeleteSelectedTodos = () => {
     const updatedTrashTodos = trashTodos.filter(
       (todo) => !selectedTodos.includes(todo)
