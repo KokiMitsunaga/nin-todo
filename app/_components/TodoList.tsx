@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import AddEditModal from "./AddEditModal";
-import ConfirmDeleteModal from "./ConfirmDeleteModal";
+import ConfirmDeleteItemModal from "./ConfirmDeleteItemModal";
 import { Todo } from "../_types/types";
 
 interface TodoListProps {
@@ -126,7 +126,7 @@ const TodoList = ({
         />
       )}
       {deleteModalOpen && (
-        <ConfirmDeleteModal
+        <ConfirmDeleteItemModal
           isOpen={deleteModalOpen}
           onClose={() => setDeleteModalOpen(false)}
           onConfirm={handleConfirmDelete}

@@ -2,7 +2,7 @@
 
 import { IoTrash } from "react-icons/io5";
 import { useState } from "react";
-import ConfirmDeleteModal from "./ConfirmDeleteModal";
+import ConfirmDeleteItemModal from "./ConfirmDeleteItemModal";
 import { Todo } from "../_types/types";
 
 interface TrashButtonProps {
@@ -35,7 +35,7 @@ const TrashButton = ({ selectedTodos, onConfirmDelete }: TrashButtonProps) => {
         <IoTrash size={24} />
       </button>
 
-      <ConfirmDeleteModal
+      <ConfirmDeleteItemModal
         isOpen={deleteModalOpen}
         onClose={() => setDeleteModalOpen(false)}
         onConfirm={() => {
