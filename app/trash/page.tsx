@@ -24,7 +24,6 @@ const TrashPage = () => {
 
     let loadedCategories = savedCategories ? JSON.parse(savedCategories) : [];
 
-    // "TODO"カテゴリーを必ず含める
     if (!loadedCategories.includes("TODO")) {
       loadedCategories = ["TODO", ...loadedCategories];
     }
@@ -52,7 +51,9 @@ const TrashPage = () => {
 
       const updatedTodos = {
         ...todos,
-        [selectedCategory]: [...(todos[selectedCategory] || []), restoredTodo],
+        [selectedCategory]: todos[selectedCategory]
+          ? [...todos[selectedCategory], restoredTodo]
+          : [restoredTodo],
       };
 
       localStorage.setItem("todos", JSON.stringify(updatedTodos));
