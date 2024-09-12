@@ -36,10 +36,13 @@ const TrashPage = () => {
   const restoreTodo = () => {
     if (selectedIndex !== null) {
       const restoredTodo = trashTodos[selectedIndex];
-      const todos = JSON.parse(localStorage.getItem("todos") || "[]");
-      const updatedTodos = Array.isArray(todos)
-        ? [...todos, restoredTodo]
-        : [restoredTodo];
+      const todos = JSON.parse(localStorage.getItem("todos") || "{}");
+
+      // 復元したTODOを特定のカテゴリに追加（ここでは"example"に追加しています）
+      const updatedTodos = {
+        ...todos,
+        example: [...(todos.example || []), restoredTodo],
+      };
 
       localStorage.setItem("todos", JSON.stringify(updatedTodos));
 
@@ -48,10 +51,6 @@ const TrashPage = () => {
       );
       setTrashTodos(updatedTrashTodos);
       localStorage.setItem("trashTodos", JSON.stringify(updatedTrashTodos));
-
-      // TODOページのタスク更新通知
-      const event = new Event("todosUpdated");
-      window.dispatchEvent(event);
 
       setRestoreModalOpen(false);
       setSelectedIndex(null);
