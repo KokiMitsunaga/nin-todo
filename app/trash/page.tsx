@@ -49,6 +49,10 @@ const TrashPage = () => {
       setTrashTodos(updatedTrashTodos);
       localStorage.setItem("trashTodos", JSON.stringify(updatedTrashTodos));
 
+      // TODOページのタスク更新通知
+      const event = new Event("todosUpdated");
+      window.dispatchEvent(event);
+
       setRestoreModalOpen(false);
       setSelectedIndex(null);
     }
