@@ -9,20 +9,24 @@ import CategoryBar from "./_components/CategoryBar";
 import { Todo } from "./_types/types";
 
 const TodoPage = () => {
-  const [todos, setTodos] = useState<{ [key: string]: Todo[] }>({
-    example: [],
-  });
+  const [todos, setTodos] = useState<{ [key: string]: Todo[] }>({});
   const [trashTodos, setTrashTodos] = useState<Todo[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedTodos, setSelectedTodos] = useState<Todo[]>([]);
-  const [categories, setCategories] = useState<string[]>(["example"]);
-  const [selectedCategory, setSelectedCategory] = useState("example");
+  const [categories, setCategories] = useState<string[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
 
   useEffect(() => {
     const savedTodos = localStorage.getItem("todos");
+    const savedCategories = localStorage.getItem("categories");
     const savedTrashTodos = localStorage.getItem("trashTodos");
+
     if (savedTodos) {
       setTodos(JSON.parse(savedTodos));
+    }
+    if (savedCategories) {
+      setCategories(JSON.parse(savedCategories));
+      setSelectedCategory(JSON.parse(savedCategories)[0] || "");
     }
     if (savedTrashTodos) {
       setTrashTodos(JSON.parse(savedTrashTodos));
@@ -32,6 +36,10 @@ const TodoPage = () => {
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos));
   }, [todos]);
+
+  useEffect(() => {
+    localStorage.setItem("categories", JSON.stringify(categories));
+  }, [categories]);
 
   useEffect(() => {
     localStorage.setItem("trashTodos", JSON.stringify(trashTodos));
