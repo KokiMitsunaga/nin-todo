@@ -42,20 +42,25 @@ const ConfirmRestoreModal = ({
 
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
+      className="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center"
       onClick={handleBackgroundClick}
     >
       <div
-        className="bg-white p-6 rounded-lg shadow-md"
+        className="bg-white p-6 rounded-lg shadow-lg w-10/12 sm:w-1/3"
         onClick={(e) => e.stopPropagation()}
       >
-        <h3 className="text-lg font-semibold mb-4">
-          Choose a category to restore
-        </h3>
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-xl font-semibold">
+            Choose a category to restore
+          </h3>
+          <button onClick={onClose} className="text-red-500">
+            <FaXmark size={20} />
+          </button>
+        </div>
         <select
           value={selectedCategory}
           onChange={(e) => setSelectedCategory(e.target.value)}
-          className="border border-gray-300 p-2 w-full mb-4"
+          className="border border-gray-300 p-2 rounded w-full mb-4"
         >
           {categories.map((category, index) => (
             <option key={index} value={category}>
@@ -63,23 +68,25 @@ const ConfirmRestoreModal = ({
             </option>
           ))}
         </select>
-        <div className="flex justify-center gap-3">
+        <div className="flex justify-end gap-3">
           <button
             onClick={handleConfirm}
-            className={`px-4 py-2 rounded ${
+            className={`px-4 py-2 rounded flex items-center ${
               isConfirmDisabled
                 ? "bg-gray-400 cursor-not-allowed"
                 : "bg-green-500 text-white"
             }`}
             disabled={isConfirmDisabled}
           >
-            <FaCheck className="inline-block mr-1" /> Restore
+            <FaCheck size={16} className="mr-1" />
+            Restore
           </button>
           <button
             onClick={onClose}
-            className="bg-red-500 text-white px-4 py-2 rounded"
+            className="bg-red-500 text-white px-4 py-2 rounded flex items-center"
           >
-            <FaXmark className="inline-block mr-1" /> Cancel
+            <FaXmark size={16} className="mr-1" />
+            Cancel
           </button>
         </div>
       </div>
