@@ -11,18 +11,25 @@ const TrashPage = () => {
   const [trashTodos, setTrashTodos] = useState<Todo[]>([]);
   const [restoreModalOpen, setRestoreModalOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-  const [categories, setCategories] = useState<string[]>([]); // 追加
+  const [categories, setCategories] = useState<string[]>([]);
   const [selectedTodos, setSelectedTodos] = useState<Todo[]>([]);
 
   useEffect(() => {
     const savedTrashTodos = localStorage.getItem("trashTodos");
     const savedCategories = localStorage.getItem("categories");
+
     if (savedTrashTodos) {
       setTrashTodos(JSON.parse(savedTrashTodos));
     }
-    if (savedCategories) {
-      setCategories(JSON.parse(savedCategories));
+
+    let loadedCategories = savedCategories ? JSON.parse(savedCategories) : [];
+
+    // "TODO"カテゴリーを必ず含める
+    if (!loadedCategories.includes("TODO")) {
+      loadedCategories = ["TODO", ...loadedCategories];
     }
+
+    setCategories(loadedCategories);
   }, []);
 
   const handleRestoreClick = (index: number) => {
@@ -98,7 +105,7 @@ const TrashPage = () => {
         categories={categories}
         currentCategory={
           selectedIndex !== null
-            ? trashTodos[selectedIndex].category || null // 修正
+            ? trashTodos[selectedIndex].category || null
             : null
         }
       />

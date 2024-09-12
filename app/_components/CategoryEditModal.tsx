@@ -81,13 +81,6 @@ const CategoryEditModal = ({
               <FaXmark size={16} />
               <span className="ml-1">Delete</span>
             </button>
-            <button
-              onClick={onClose}
-              className="bg-gray-400 text-white px-4 py-2 rounded flex items-center"
-            >
-              <FaXmark size={16} />
-              <span className="ml-1">Cancel</span>
-            </button>
           </div>
         </div>
       </div>
