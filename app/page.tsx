@@ -5,13 +5,18 @@ import TodoButton from "./_components/TodoButton";
 import TodoList from "./_components/TodoList";
 import AddEditModal from "./_components/AddEditModal";
 import TrashButton from "./_components/TrashButton";
+import CategoryBar from "./_components/CategoryBar";
 import { Todo } from "./_types/types";
 
 const TodoPage = () => {
-  const [todos, setTodos] = useState<Todo[]>([]);
+  const [todos, setTodos] = useState<{ [key: string]: Todo[] }>({
+    example: [],
+  });
   const [trashTodos, setTrashTodos] = useState<Todo[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedTodos, setSelectedTodos] = useState<Todo[]>([]);
+  const [categories, setCategories] = useState<string[]>(["example"]);
+  const [selectedCategory, setSelectedCategory] = useState("example");
 
   useEffect(() => {
     const savedTodos = localStorage.getItem("todos");
@@ -40,36 +45,67 @@ const TodoPage = () => {
     dueTime?: string,
     allDay?: boolean
   ) => {
-    setTodos([
-      ...todos,
-      { title, description, priority, dueDate, dueTime, allDay },
-    ]);
+    setTodos((prevTodos) => ({
+      ...prevTodos,
+      [selectedCategory]: [
+        ...(prevTodos[selectedCategory] || []),
+        { title, description, priority, dueDate, dueTime, allDay },
+      ],
+    }));
     setSelectedTodos([]);
   };
 
   const updateTodo = (index: number, updatedTodo: Todo) => {
-    const updatedTodos = todos.map((todo, i) =>
-      i === index ? updatedTodo : todo
-    );
-    setTodos(updatedTodos);
+    setTodos((prevTodos) => ({
+      ...prevTodos,
+      [selectedCategory]: prevTodos[selectedCategory].map((todo, i) =>
+        i === index ? updatedTodo : todo
+      ),
+    }));
   };
 
   const removeTodo = (index: number) => {
-    const removedTodo = todos[index];
+    const removedTodo = todos[selectedCategory][index];
     setTrashTodos([...trashTodos, removedTodo]);
-    setTodos(todos.filter((_, i) => i !== index));
+    setTodos((prevTodos) => ({
+      ...prevTodos,
+      [selectedCategory]: prevTodos[selectedCategory].filter(
+        (_, i) => i !== index
+      ),
+    }));
   };
 
   const removeSelectedTodos = () => {
     setTrashTodos([...trashTodos, ...selectedTodos]);
-    setTodos(todos.filter((todo) => !selectedTodos.includes(todo)));
+    setTodos((prevTodos) => ({
+      ...prevTodos,
+      [selectedCategory]: prevTodos[selectedCategory].filter(
+        (todo) => !selectedTodos.includes(todo)
+      ),
+    }));
     setSelectedTodos([]);
+  };
+
+  const handleAddCategory = (category: string) => {
+    setCategories((prevCategories) => [...prevCategories, category]);
+    setTodos((prevTodos) => ({
+      ...prevTodos,
+      [category]: [],
+    }));
+    setSelectedCategory(category);
   };
 
   return (
     <div className="container mx-auto p-4">
+      <CategoryBar
+        categories={categories}
+        selectedCategory={selectedCategory}
+        onAddCategory={handleAddCategory}
+        onSelectCategory={setSelectedCategory}
+      />
+
       <TodoList
-        todos={todos}
+        todos={todos[selectedCategory] || []}
         updateTodo={updateTodo}
         removeTodo={removeTodo}
         setSelectedTodos={setSelectedTodos}
