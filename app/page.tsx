@@ -7,17 +7,17 @@ import AddEditModal from "./_components/AddEditModal";
 import TrashButton from "./_components/TrashButton";
 import CategoryBar from "./_components/CategoryBar";
 import { Todo } from "./_types/types";
-import CategoryEditModal from "./_components/CategoryEditModal"; // 新規追加
+import CategoryEditModal from "./_components/CategoryEditModal";
 
 const TodoPage = () => {
   const [todos, setTodos] = useState<{ [key: string]: Todo[] }>({});
   const [trashTodos, setTrashTodos] = useState<Todo[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedTodos, setSelectedTodos] = useState<Todo[]>([]);
-  const [categories, setCategories] = useState<string[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const [categoryEditModalOpen, setCategoryEditModalOpen] = useState(false); // 追加
-  const [categoryToEdit, setCategoryToEdit] = useState<string | null>(null); // 追加
+  const [categories, setCategories] = useState<string[]>(["TODO"]);
+  const [selectedCategory, setSelectedCategory] = useState("TODO");
+  const [categoryEditModalOpen, setCategoryEditModalOpen] = useState(false);
+  const [categoryToEdit, setCategoryToEdit] = useState<string | null>(null);
 
   useEffect(() => {
     const savedTodos = localStorage.getItem("todos");
@@ -28,8 +28,11 @@ const TodoPage = () => {
       setTodos(JSON.parse(savedTodos));
     }
     if (savedCategories) {
-      setCategories(JSON.parse(savedCategories));
-      setSelectedCategory(JSON.parse(savedCategories)[0] || "");
+      const loadedCategories = JSON.parse(savedCategories);
+      setCategories([
+        "TODO",
+        ...loadedCategories.filter((cat: string) => cat !== "TODO"),
+      ]);
     }
     if (savedTrashTodos) {
       setTrashTodos(JSON.parse(savedTrashTodos));
@@ -41,7 +44,10 @@ const TodoPage = () => {
   }, [todos]);
 
   useEffect(() => {
-    localStorage.setItem("categories", JSON.stringify(categories));
+    localStorage.setItem(
+      "categories",
+      JSON.stringify(categories.filter((cat) => cat !== "TODO"))
+    );
   }, [categories]);
 
   useEffect(() => {
@@ -114,6 +120,7 @@ const TodoPage = () => {
   };
 
   const handleAddCategory = (category: string) => {
+    if (category === "TODO") return;
     setCategories((prevCategories) => [...prevCategories, category]);
     setTodos((prevTodos) => ({
       ...prevTodos,
@@ -123,8 +130,8 @@ const TodoPage = () => {
   };
 
   const handleEditCategory = (newName: string) => {
+    if (categoryToEdit === "TODO") return;
     if (categoryToEdit) {
-      // カテゴリー名の変更
       setCategories((prevCategories) =>
         prevCategories.map((cat) => (cat === categoryToEdit ? newName : cat))
       );
@@ -139,8 +146,8 @@ const TodoPage = () => {
   };
 
   const handleDeleteCategory = () => {
+    if (categoryToEdit === "TODO") return;
     if (categoryToEdit) {
-      // カテゴリー削除時にそのカテゴリーのTODOをゴミ箱に移動
       setTrashTodos([...trashTodos, ...(todos[categoryToEdit] || [])]);
       setCategories((prevCategories) =>
         prevCategories.filter((cat) => cat !== categoryToEdit)
@@ -151,7 +158,7 @@ const TodoPage = () => {
         return newTodos;
       });
       setCategoryToEdit(null);
-      setSelectedCategory(categories[0] || "");
+      setSelectedCategory(categories[0] || "TODO");
     }
   };
 
@@ -163,8 +170,8 @@ const TodoPage = () => {
         onAddCategory={handleAddCategory}
         onSelectCategory={setSelectedCategory}
         onEditCategory={(category) => {
-          setCategoryToEdit(category); // 追加
-          setCategoryEditModalOpen(true); // 追加
+          setCategoryToEdit(category);
+          setCategoryEditModalOpen(true);
         }}
       />
 

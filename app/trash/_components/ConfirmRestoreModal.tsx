@@ -16,13 +16,13 @@ const ConfirmRestoreModal = ({
   categories,
   currentCategory,
 }: ConfirmRestoreModalProps) => {
-  const [selectedCategory, setSelectedCategory] = useState<string>(
-    currentCategory || ""
-  );
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
 
   useEffect(() => {
-    setSelectedCategory(currentCategory || "");
-  }, [currentCategory]);
+    setSelectedCategory(
+      currentCategory || (categories.length > 0 ? categories[0] : "")
+    );
+  }, [currentCategory, categories]);
 
   if (!isOpen) return null;
 
