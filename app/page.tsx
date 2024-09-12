@@ -57,7 +57,15 @@ const TodoPage = () => {
       ...prevTodos,
       [selectedCategory]: [
         ...(prevTodos[selectedCategory] || []),
-        { title, description, priority, dueDate, dueTime, allDay },
+        {
+          title,
+          description,
+          priority,
+          dueDate,
+          dueTime,
+          allDay,
+          category: selectedCategory,
+        },
       ],
     }));
     setSelectedTodos([]);
@@ -74,7 +82,10 @@ const TodoPage = () => {
 
   const removeTodo = (index: number) => {
     const removedTodo = todos[selectedCategory][index];
-    setTrashTodos([...trashTodos, removedTodo]);
+    setTrashTodos([
+      ...trashTodos,
+      { ...removedTodo, category: selectedCategory },
+    ]);
     setTodos((prevTodos) => ({
       ...prevTodos,
       [selectedCategory]: prevTodos[selectedCategory].filter(
@@ -84,12 +95,17 @@ const TodoPage = () => {
   };
 
   const removeSelectedTodos = () => {
-    setTrashTodos([...trashTodos, ...selectedTodos]);
+    const updatedTodos = todos[selectedCategory].filter(
+      (todo) => !selectedTodos.includes(todo)
+    );
+    const updatedTrash = selectedTodos.map((todo) => ({
+      ...todo,
+      category: selectedCategory,
+    }));
+    setTrashTodos([...trashTodos, ...updatedTrash]);
     setTodos((prevTodos) => ({
       ...prevTodos,
-      [selectedCategory]: prevTodos[selectedCategory].filter(
-        (todo) => !selectedTodos.includes(todo)
-      ),
+      [selectedCategory]: updatedTodos,
     }));
     setSelectedTodos([]);
   };

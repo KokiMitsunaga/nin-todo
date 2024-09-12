@@ -37,16 +37,13 @@ const TrashPage = () => {
     if (selectedIndex !== null) {
       const restoredTodo = trashTodos[selectedIndex];
       const todos = JSON.parse(localStorage.getItem("todos") || "{}");
-      const categories = JSON.parse(localStorage.getItem("categories") || "[]");
-
-      // 既存のカテゴリーに復元
-      const category = categories.includes(restoredTodo.category)
-        ? restoredTodo.category
-        : categories[0] || "";
 
       const updatedTodos = {
         ...todos,
-        [category]: [...(todos[category] || []), restoredTodo],
+        [restoredTodo.category || "default"]: [
+          ...(todos[restoredTodo.category || "default"] || []),
+          restoredTodo,
+        ],
       };
 
       localStorage.setItem("todos", JSON.stringify(updatedTodos));
