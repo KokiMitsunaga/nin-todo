@@ -37,7 +37,9 @@ const TrashPage = () => {
     if (selectedIndex !== null) {
       const restoredTodo = trashTodos[selectedIndex];
       const todos = JSON.parse(localStorage.getItem("todos") || "[]");
-      const updatedTodos = [...todos, restoredTodo];
+      const updatedTodos = Array.isArray(todos)
+        ? [...todos, restoredTodo]
+        : [restoredTodo];
 
       localStorage.setItem("todos", JSON.stringify(updatedTodos));
 
