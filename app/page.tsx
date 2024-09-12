@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import TodoButton from "./_components/TodoButton";
 import TodoList from "./_components/TodoList";
-import Modal from "./_components/Modal";
+import AddEditModal from "./_components/AddEditModal";
 import TrashButton from "./_components/TrashButton";
 import { Todo } from "./_types/types";
 
@@ -83,7 +83,7 @@ const TodoPage = () => {
         <TodoButton onOpenModal={() => setModalOpen(true)} />
       </div>
 
-      <Modal
+      <AddEditModal
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
         onAddTodo={addTodo}
