@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import ReButton from "./_components/ReButton";
 import TrashButton from "../_components/TrashButton";
 import ConfirmRestoreModal from "./_components/ConfirmRestoreModal";
+import TrashList from "./_components/TrashList";
+import NoTrashMessage from "./_components/NoTrashMessage";
 import { Todo } from "../_types/types";
 
 const TrashPage = () => {
@@ -57,32 +58,21 @@ const TrashPage = () => {
     );
     setTrashTodos(updatedTrashTodos);
     localStorage.setItem("trashTodos", JSON.stringify(updatedTrashTodos));
+
     setSelectedTodos([]);
   };
 
   return (
     <div className="container mx-auto p-4">
       {trashTodos.length > 0 ? (
-        <div className="bg-gray-100 px-4 py-2 rounded shadow-md">
-          <ul className="list-none divide-y divide-gray-300">
-            {trashTodos.map((todo, index) => (
-              <li
-                key={index}
-                className="py-2 flex justify-between items-center"
-              >
-                <input
-                  type="checkbox"
-                  className="mr-4 w-5 h-5"
-                  onChange={(e) => handleCheckboxChange(todo, e.target.checked)}
-                />
-                <span className="flex-grow">{todo.title}</span>
-                <ReButton onClick={() => handleRestoreClick(index)} />
-              </li>
-            ))}
-          </ul>
-        </div>
+        <TrashList
+          trashTodos={trashTodos}
+          selectedTodos={selectedTodos}
+          handleCheckboxChange={handleCheckboxChange}
+          handleRestoreClick={handleRestoreClick}
+        />
       ) : (
-        <p className="text-center text-gray-500">ゴミ箱は空です</p>
+        <NoTrashMessage />
       )}
 
       <div className="fixed bottom-4 right-4 flex gap-3">
