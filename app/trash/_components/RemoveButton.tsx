@@ -6,8 +6,12 @@ interface RemoveButtonProps {
 
 const RemoveButton = ({ onClick }: RemoveButtonProps) => {
   return (
-    <button onClick={onClick} className="text-red-500 flex items-center pl-3">
+    <button
+      onClick={onClick}
+      className="bg-red-500 text-white px-2 py-1 rounded flex items-center"
+    >
       <MdDelete size={20} />
+      <span className="ml-1">Delete</span>
     </button>
   );
 };
