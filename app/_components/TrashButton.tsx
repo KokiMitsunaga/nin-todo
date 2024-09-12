@@ -3,9 +3,10 @@
 import { IoTrash } from "react-icons/io5";
 import { useState } from "react";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
+import { Todo } from "../_types/types";
 
 interface TrashButtonProps {
-  selectedTodos: any[];
+  selectedTodos: Todo[];
   onConfirmDelete: () => void;
 }
 
@@ -18,14 +19,18 @@ const TrashButton = ({ selectedTodos, onConfirmDelete }: TrashButtonProps) => {
     }
   };
 
+  const isButtonDisabled = selectedTodos.length === 0;
+
   return (
     <>
       <button
         onClick={handleClick}
-        className={`text-pink-600 bg-white p-4 rounded-full border flex items-center justify-center ${
-          selectedTodos.length === 0 ? "text-gray-300 cursor-not-allowed" : ""
+        className={`bg-white p-4 rounded-full border flex items-center justify-center ${
+          isButtonDisabled
+            ? "text-gray-300 cursor-not-allowed"
+            : "text-pink-600"
         }`}
-        disabled={selectedTodos.length === 0}
+        disabled={isButtonDisabled}
       >
         <IoTrash size={24} />
       </button>

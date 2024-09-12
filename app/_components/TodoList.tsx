@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import RemoveButton from "./RemoveButton";
 import EditButton from "./EditButton";
 import Modal from "./Modal";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
@@ -111,7 +110,6 @@ const TodoList = ({
             </div>
             <div className="flex items-center space-x-2 flex-shrink-0">
               <EditButton onClick={() => handleEditClick(index)} />
-              <RemoveButton onClick={() => handleRemoveClick(index)} />
             </div>
           </li>
         ))}
