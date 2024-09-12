@@ -34,7 +34,9 @@ const CategoryBar = ({
               key={index}
               onClick={() => {
                 if (selectedCategory === category) {
-                  onEditCategory(category); // 追加: 同じカテゴリーを押すと修正モーダル
+                  if (category !== "TODO") {
+                    onEditCategory(category);
+                  }
                 } else {
                   onSelectCategory(category);
                 }
