@@ -45,20 +45,15 @@ const TrashPage = () => {
     }
   };
 
-  const restoreTodo = () => {
+  const restoreTodo = (selectedCategory: string) => {
     if (selectedIndex !== null) {
       const restoredTodo = trashTodos[selectedIndex];
       const todos = JSON.parse(localStorage.getItem("todos") || "{}");
 
-      // カテゴリーが削除されている場合は"TODO"カテゴリーに復元
-      const targetCategory =
-        restoredTodo.category && categories.includes(restoredTodo.category)
-          ? restoredTodo.category
-          : "TODO"; // デフォルトのカテゴリを設定（例として 'TODO' を使用）
-
+      // 選択されたカテゴリーに対して復元する
       const updatedTodos = {
         ...todos,
-        [targetCategory]: [...(todos[targetCategory] || []), restoredTodo],
+        [selectedCategory]: [...(todos[selectedCategory] || []), restoredTodo],
       };
 
       localStorage.setItem("todos", JSON.stringify(updatedTodos));
