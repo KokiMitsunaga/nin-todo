@@ -7,6 +7,7 @@ import AddEditModal from "./_components/AddEditModal";
 import TrashButton from "./_components/TrashButton";
 import CategoryBar from "./_components/CategoryBar";
 import { Todo } from "./_types/types";
+import CategoryEditModal from "./_components/CategoryEditModal"; // 新規追加
 
 const TodoPage = () => {
   const [todos, setTodos] = useState<{ [key: string]: Todo[] }>({});
@@ -15,6 +16,8 @@ const TodoPage = () => {
   const [selectedTodos, setSelectedTodos] = useState<Todo[]>([]);
   const [categories, setCategories] = useState<string[]>([]);
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [categoryEditModalOpen, setCategoryEditModalOpen] = useState(false); // 追加
+  const [categoryToEdit, setCategoryToEdit] = useState<string | null>(null); // 追加
 
   useEffect(() => {
     const savedTodos = localStorage.getItem("todos");
@@ -119,6 +122,39 @@ const TodoPage = () => {
     setSelectedCategory(category);
   };
 
+  const handleEditCategory = (newName: string) => {
+    if (categoryToEdit) {
+      // カテゴリー名の変更
+      setCategories((prevCategories) =>
+        prevCategories.map((cat) => (cat === categoryToEdit ? newName : cat))
+      );
+      setTodos((prevTodos) => {
+        const newTodos = { ...prevTodos };
+        newTodos[newName] = newTodos[categoryToEdit];
+        delete newTodos[categoryToEdit];
+        return newTodos;
+      });
+      setCategoryToEdit(null);
+    }
+  };
+
+  const handleDeleteCategory = () => {
+    if (categoryToEdit) {
+      // カテゴリー削除時にそのカテゴリーのTODOをゴミ箱に移動
+      setTrashTodos([...trashTodos, ...(todos[categoryToEdit] || [])]);
+      setCategories((prevCategories) =>
+        prevCategories.filter((cat) => cat !== categoryToEdit)
+      );
+      setTodos((prevTodos) => {
+        const newTodos = { ...prevTodos };
+        delete newTodos[categoryToEdit];
+        return newTodos;
+      });
+      setCategoryToEdit(null);
+      setSelectedCategory(categories[0] || "");
+    }
+  };
+
   return (
     <div className="container mx-auto p-4">
       <CategoryBar
@@ -126,6 +162,10 @@ const TodoPage = () => {
         selectedCategory={selectedCategory}
         onAddCategory={handleAddCategory}
         onSelectCategory={setSelectedCategory}
+        onEditCategory={(category) => {
+          setCategoryToEdit(category); // 追加
+          setCategoryEditModalOpen(true); // 追加
+        }}
       />
 
       <TodoList
@@ -148,6 +188,16 @@ const TodoPage = () => {
         onClose={() => setModalOpen(false)}
         onAddTodo={addTodo}
       />
+
+      {categoryEditModalOpen && (
+        <CategoryEditModal
+          isOpen={categoryEditModalOpen}
+          onClose={() => setCategoryEditModalOpen(false)}
+          category={categoryToEdit}
+          onEditCategory={handleEditCategory}
+          onDeleteCategory={handleDeleteCategory}
+        />
+      )}
     </div>
   );
 };
