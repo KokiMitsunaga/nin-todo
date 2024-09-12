@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Modal from "./Modal";
+import AddEditModal from "./AddEditModal";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
 import { Todo } from "../_types/types";
 
@@ -111,7 +111,7 @@ const TodoList = ({
         ))}
       </ul>
       {modalOpen && editIndex !== null && (
-        <Modal
+        <AddEditModal
           isOpen={modalOpen}
           onClose={() => setModalOpen(false)}
           onAddTodo={handleSaveTodo}
