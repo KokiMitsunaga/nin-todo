@@ -11,12 +11,17 @@ const TrashPage = () => {
   const [trashTodos, setTrashTodos] = useState<Todo[]>([]);
   const [restoreModalOpen, setRestoreModalOpen] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [categories, setCategories] = useState<string[]>([]); // 追加
   const [selectedTodos, setSelectedTodos] = useState<Todo[]>([]);
 
   useEffect(() => {
     const savedTrashTodos = localStorage.getItem("trashTodos");
+    const savedCategories = localStorage.getItem("categories");
     if (savedTrashTodos) {
       setTrashTodos(JSON.parse(savedTrashTodos));
+    }
+    if (savedCategories) {
+      setCategories(JSON.parse(savedCategories));
     }
   }, []);
 
@@ -33,17 +38,14 @@ const TrashPage = () => {
     }
   };
 
-  const restoreTodo = () => {
+  const restoreTodo = (selectedCategory: string) => {
     if (selectedIndex !== null) {
       const restoredTodo = trashTodos[selectedIndex];
       const todos = JSON.parse(localStorage.getItem("todos") || "{}");
 
       const updatedTodos = {
         ...todos,
-        [restoredTodo.category || "default"]: [
-          ...(todos[restoredTodo.category || "default"] || []),
-          restoredTodo,
-        ],
+        [selectedCategory]: [...(todos[selectedCategory] || []), restoredTodo],
       };
 
       localStorage.setItem("todos", JSON.stringify(updatedTodos));
@@ -93,6 +95,12 @@ const TrashPage = () => {
         isOpen={restoreModalOpen}
         onClose={() => setRestoreModalOpen(false)}
         onConfirm={restoreTodo}
+        categories={categories}
+        currentCategory={
+          selectedIndex !== null
+            ? trashTodos[selectedIndex].category || null // 修正
+            : null
+        }
       />
     </div>
   );
