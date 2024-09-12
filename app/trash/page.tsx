@@ -24,6 +24,7 @@ const TrashPage = () => {
 
     let loadedCategories = savedCategories ? JSON.parse(savedCategories) : [];
 
+    // "TODO"カテゴリーを必ず含める
     if (!loadedCategories.includes("TODO")) {
       loadedCategories = ["TODO", ...loadedCategories];
     }
@@ -37,21 +38,27 @@ const TrashPage = () => {
   };
 
   const handleCheckboxChange = (todo: Todo, isChecked: boolean) => {
-    setSelectedTodos((prevSelected) =>
-      isChecked
-        ? [...prevSelected, todo]
-        : prevSelected.filter((t) => t !== todo)
-    );
+    if (isChecked) {
+      setSelectedTodos([...selectedTodos, todo]);
+    } else {
+      setSelectedTodos(selectedTodos.filter((t) => t !== todo));
+    }
   };
 
-  const restoreTodo = (selectedCategory: string) => {
+  const restoreTodo = () => {
     if (selectedIndex !== null) {
       const restoredTodo = trashTodos[selectedIndex];
       const todos = JSON.parse(localStorage.getItem("todos") || "{}");
 
+      // カテゴリーが削除されている場合は"TODO"カテゴリーに復元
+      const targetCategory =
+        restoredTodo.category && categories.includes(restoredTodo.category)
+          ? restoredTodo.category
+          : "TODO"; // デフォルトのカテゴリを設定（例として 'TODO' を使用）
+
       const updatedTodos = {
         ...todos,
-        [selectedCategory]: [...(todos[selectedCategory] || []), restoredTodo],
+        [targetCategory]: [...(todos[targetCategory] || []), restoredTodo],
       };
 
       localStorage.setItem("todos", JSON.stringify(updatedTodos));
@@ -67,7 +74,6 @@ const TrashPage = () => {
     }
   };
 
-  // Permanently delete selected todos
   const permanentlyDeleteSelectedTodos = () => {
     const updatedTrashTodos = trashTodos.filter(
       (todo) => !selectedTodos.includes(todo)
