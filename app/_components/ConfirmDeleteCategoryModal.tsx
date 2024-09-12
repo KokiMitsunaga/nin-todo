@@ -1,17 +1,19 @@
+"use client";
+
 import React from "react";
 import { FaCheck, FaXmark } from "react-icons/fa6";
 
-interface ConfirmDeleteModalProps {
+interface ConfirmDeleteCategoryModalProps {
   isOpen: boolean;
   onClose: () => void;
   onConfirm: () => void;
 }
 
-const ConfirmDeleteModal = ({
+const ConfirmDeleteCategoryModal = ({
   isOpen,
   onClose,
   onConfirm,
-}: ConfirmDeleteModalProps) => {
+}: ConfirmDeleteCategoryModalProps) => {
   if (!isOpen) return null;
 
   return (
@@ -29,14 +31,17 @@ const ConfirmDeleteModal = ({
             <FaXmark size={20} />
           </button>
         </div>
-        <p className="mb-4">Are you sure you want to delete this item?</p>
+        <p className="mb-4">Are you sure you want to delete this category?</p>
         <div className="flex justify-end">
           <button
-            onClick={onConfirm}
+            onClick={() => {
+              onConfirm();
+              onClose();
+            }}
             className="bg-red-500 text-white px-4 py-2 rounded mr-2 flex items-center"
           >
             <FaCheck size={16} />
-            <span className="ml-1">Delete</span>
+            <span className="ml-1">Confirm</span>
           </button>
           <button
             onClick={onClose}
@@ -51,4 +56,4 @@ const ConfirmDeleteModal = ({
   );
 };
 
-export default ConfirmDeleteModal;
+export default ConfirmDeleteCategoryModal;
