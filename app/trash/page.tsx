@@ -36,11 +36,10 @@ const TrashPage = () => {
   const restoreTodo = () => {
     if (selectedIndex !== null) {
       const restoredTodo = trashTodos[selectedIndex];
-      // JSON.parse()の結果が配列でない場合に備えて、配列を初期値とする
       const todos = JSON.parse(localStorage.getItem("todos") || "[]");
       const updatedTodos = Array.isArray(todos)
         ? [...todos, restoredTodo]
-        : [restoredTodo]; // 配列であることを確認
+        : [restoredTodo];
 
       localStorage.setItem("todos", JSON.stringify(updatedTodos));
 

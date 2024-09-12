@@ -24,26 +24,30 @@ const CategoryBar = ({
   };
 
   return (
-    <div className="flex items-center gap-4 p-4 border-b">
-      {categories.map((category, index) => (
-        <button
-          key={index}
-          onClick={() => onSelectCategory(category)}
-          className={`px-3 py-1 rounded ${
-            selectedCategory === category
-              ? "bg-blue-500 text-white"
-              : "bg-gray-200"
-          }`}
-        >
-          {category}
-        </button>
-      ))}
-      <button
-        onClick={() => setIsModalOpen(true)}
-        className="text-blue-500 hover:text-blue-700"
-      >
-        ＋
-      </button>
+    <div className="w-full bg-white shadow-md">
+      <div className="flex items-center px-4 py-2 border-b overflow-x-auto scrollbar-hide">
+        <div className="flex gap-4">
+          {categories.map((category, index) => (
+            <button
+              key={index}
+              onClick={() => onSelectCategory(category)}
+              className={`mr-4 pb-2 whitespace-nowrap ${
+                selectedCategory === category
+                  ? "border-b-2 border-pink-600 text-pink-600"
+                  : "text-gray-600"
+              } hover:text-pink-600`}
+            >
+              {category}
+            </button>
+          ))}
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="ml-auto text-blue-500 hover:text-blue-700"
+          >
+            ＋
+          </button>
+        </div>
+      </div>
       {isModalOpen && (
         <CategoryModal
           onClose={() => setIsModalOpen(false)}
