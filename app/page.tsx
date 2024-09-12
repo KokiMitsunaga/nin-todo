@@ -11,6 +11,7 @@ const TodoPage = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [trashTodos, setTrashTodos] = useState<Todo[]>([]);
   const [modalOpen, setModalOpen] = useState(false);
+  const [selectedTodos, setSelectedTodos] = useState<Todo[]>([]);
 
   useEffect(() => {
     const savedTodos = localStorage.getItem("todos");
@@ -43,6 +44,7 @@ const TodoPage = () => {
       ...todos,
       { title, description, priority, dueDate, dueTime, allDay },
     ]);
+    setSelectedTodos([]);
   };
 
   const updateTodo = (index: number, updatedTodo: Todo) => {
@@ -58,12 +60,26 @@ const TodoPage = () => {
     setTodos(todos.filter((_, i) => i !== index));
   };
 
+  const removeSelectedTodos = () => {
+    setTrashTodos([...trashTodos, ...selectedTodos]);
+    setTodos(todos.filter((todo) => !selectedTodos.includes(todo)));
+    setSelectedTodos([]);
+  };
+
   return (
     <div className="container mx-auto p-4">
-      <TodoList todos={todos} updateTodo={updateTodo} removeTodo={removeTodo} />
+      <TodoList
+        todos={todos}
+        updateTodo={updateTodo}
+        removeTodo={removeTodo}
+        setSelectedTodos={setSelectedTodos}
+      />
 
       <div className="fixed bottom-4 right-4 flex gap-3">
-        <TrashButton />
+        <TrashButton
+          selectedTodos={selectedTodos}
+          onConfirmDelete={removeSelectedTodos}
+        />
         <TodoButton onOpenModal={() => setModalOpen(true)} />
       </div>
 
