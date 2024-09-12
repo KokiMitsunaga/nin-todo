@@ -55,11 +55,6 @@ const TodoList = ({
     setModalOpen(false);
   };
 
-  const handleRemoveClick = (index: number) => {
-    setDeleteIndex(index);
-    setDeleteModalOpen(true);
-  };
-
   const handleConfirmDelete = () => {
     if (deleteIndex !== null) {
       setSelectedIds((prevSelectedIds) =>
