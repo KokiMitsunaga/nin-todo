@@ -23,9 +23,11 @@ const TodoList = ({
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
 
   useEffect(() => {
-    const selectedTodos = selectedIds.map((id) => todos[id]);
-    setSelectedTodos(selectedTodos);
-  }, [selectedIds, todos, setSelectedTodos]);
+    if (selectedIds.length > 0) {
+      const selectedTodos = selectedIds.map((id) => todos[id]);
+      setSelectedTodos(selectedTodos);
+    }
+  }, [selectedIds, todos]);
 
   const handleItemClick = (index: number) => {
     setEditIndex(index);
