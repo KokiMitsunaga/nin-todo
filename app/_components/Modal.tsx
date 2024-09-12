@@ -82,8 +82,14 @@ const Modal = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-10/12">
+    <div
+      className="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center z-20"
+      onClick={handleClose}
+    >
+      <div
+        className="bg-white p-6 rounded-lg shadow-lg w-10/12"
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold">Edit Todo</h2>
           <button onClick={handleClose} className="text-red-400">
@@ -142,7 +148,7 @@ const Modal = ({
             value={dueTime}
             onChange={(e) => setDueTime(e.target.value)}
             className="border p-2 w-full"
-            disabled={allDay} // All dayがONの場合は無効化
+            disabled={allDay}
           />
         </div>
         <div className="mb-4 flex items-center">
