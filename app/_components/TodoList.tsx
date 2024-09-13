@@ -5,8 +5,8 @@ import { Todo } from "../_types/types";
 
 interface TodoListProps {
   todos: Todo[];
-  updateTodo: (index: number, updatedTodo: Todo) => void;
-  removeTodo: (index: number) => void;
+  updateTodo: (id: string, updatedTodo: Todo) => void;
+  removeTodo: (id: string) => void;
   setSelectedTodos: (selectedTodos: Todo[]) => void;
 }
 
@@ -16,21 +16,23 @@ const TodoList = ({
   removeTodo,
   setSelectedTodos,
 }: TodoListProps) => {
-  const [editIndex, setEditIndex] = useState<number | null>(null);
+  const [editId, setEditId] = useState<string | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [deleteIndex, setDeleteIndex] = useState<number | null>(null);
-  const [selectedIds, setSelectedIds] = useState<number[]>([]);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
   useEffect(() => {
     if (selectedIds.length > 0) {
-      const selectedTodos = selectedIds.map((id) => todos[id]);
+      const selectedTodos = selectedIds.map(
+        (id) => todos.find((todo) => todo.id === id)!
+      );
       setSelectedTodos(selectedTodos);
     }
   }, [selectedIds, todos]);
 
-  const handleItemClick = (index: number) => {
-    setEditIndex(index);
+  const handleItemClick = (id: string) => {
+    setEditId(id);
     setModalOpen(true);
   };
 
@@ -42,38 +44,38 @@ const TodoList = ({
     dueTime?: string,
     allDay?: boolean
   ) => {
-    if (editIndex !== null) {
-      updateTodo(editIndex, {
+    if (editId) {
+      updateTodo(editId, {
+        id: editId,
         title,
         description,
         priority,
         dueDate,
         dueTime,
         allDay,
+        category: todos.find((todo) => todo.id === editId)!.category,
       });
-      setEditIndex(null);
+      setEditId(null);
     }
     setModalOpen(false);
   };
 
   const handleConfirmDelete = () => {
-    if (deleteIndex !== null) {
+    if (deleteId) {
       setSelectedIds((prevSelectedIds) =>
-        prevSelectedIds
-          .filter((id) => id !== deleteIndex)
-          .map((id) => (id > deleteIndex ? id - 1 : id))
+        prevSelectedIds.filter((id) => id !== deleteId)
       );
-      removeTodo(deleteIndex);
-      setDeleteIndex(null);
+      removeTodo(deleteId);
+      setDeleteId(null);
     }
     setDeleteModalOpen(false);
   };
 
-  const handleCheckboxChange = (index: number) => {
+  const handleCheckboxChange = (id: string) => {
     setSelectedIds((prevSelectedIds) =>
-      prevSelectedIds.includes(index)
-        ? prevSelectedIds.filter((id) => id !== index)
-        : [...prevSelectedIds, index]
+      prevSelectedIds.includes(id)
+        ? prevSelectedIds.filter((selectedId) => selectedId !== id)
+        : [...prevSelectedIds, id]
     );
   };
 
@@ -84,17 +86,17 @@ const TodoList = ({
   return (
     <div className="bg-gray-100 px-4 rounded shadow-md">
       <ul className="list-none divide-y divide-gray-300">
-        {todos.map((todo, index) => (
+        {todos.map((todo) => (
           <li
-            key={index}
+            key={todo.id}
             className="py-2 flex justify-between items-center cursor-pointer text-lg"
-            onClick={() => handleItemClick(index)}
+            onClick={() => handleItemClick(todo.id)}
           >
             <input
               type="checkbox"
               className="mr-4 w-5 h-5"
-              checked={selectedIds.includes(index)}
-              onChange={() => handleCheckboxChange(index)}
+              checked={selectedIds.includes(todo.id)}
+              onChange={() => handleCheckboxChange(todo.id)}
               onClick={(e) => e.stopPropagation()}
             />
             <div className="flex flex-col flex-grow min-w-0">
@@ -112,17 +114,19 @@ const TodoList = ({
           </li>
         ))}
       </ul>
-      {modalOpen && editIndex !== null && (
+      {modalOpen && editId !== null && (
         <AddEditModal
           isOpen={modalOpen}
           onClose={() => setModalOpen(false)}
           onAddTodo={handleSaveTodo}
-          initialTitle={todos[editIndex!].title}
-          initialDescription={todos[editIndex!].description}
-          initialPriority={todos[editIndex!].priority}
-          initialDueDate={todos[editIndex!].dueDate}
-          initialDueTime={todos[editIndex!].dueTime}
-          initialAllDay={todos[editIndex!].allDay}
+          initialTitle={todos.find((todo) => todo.id === editId)!.title}
+          initialDescription={
+            todos.find((todo) => todo.id === editId)!.description
+          }
+          initialPriority={todos.find((todo) => todo.id === editId)!.priority}
+          initialDueDate={todos.find((todo) => todo.id === editId)!.dueDate}
+          initialDueTime={todos.find((todo) => todo.id === editId)!.dueTime}
+          initialAllDay={todos.find((todo) => todo.id === editId)!.allDay}
         />
       )}
       {deleteModalOpen && (

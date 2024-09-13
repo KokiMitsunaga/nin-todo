@@ -8,6 +8,7 @@ import TrashButton from "./_components/TrashButton";
 import CategoryBar from "./_components/CategoryBar";
 import { Todo } from "./_types/types";
 import CategoryEditModal from "./_components/CategoryEditModal";
+import SortSelectBox from "./_components/SortSelectBox";
 
 const TodoPage = () => {
   const [todos, setTodos] = useState<{ [key: string]: Todo[] }>({});
@@ -18,7 +19,7 @@ const TodoPage = () => {
   const [selectedCategory, setSelectedCategory] = useState("TODO");
   const [categoryEditModalOpen, setCategoryEditModalOpen] = useState(false);
   const [categoryToEdit, setCategoryToEdit] = useState<string | null>(null);
-
+  const [sortMethod, setSortMethod] = useState("created");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
@@ -64,45 +65,47 @@ const TodoPage = () => {
     dueTime?: string,
     allDay?: boolean
   ) => {
+    const newTodo: Todo = {
+      id: Date.now().toString(),
+      title,
+      description,
+      priority,
+      dueDate,
+      dueTime,
+      allDay,
+      category: selectedCategory,
+    };
+
     setTodos((prevTodos) => ({
       ...prevTodos,
-      [selectedCategory]: [
-        ...(prevTodos[selectedCategory] || []),
-        {
-          title,
-          description,
-          priority,
-          dueDate,
-          dueTime,
-          allDay,
-          category: selectedCategory,
-        },
-      ],
+      [selectedCategory]: [...(prevTodos[selectedCategory] || []), newTodo],
     }));
     setSelectedTodos([]);
   };
 
-  const updateTodo = (index: number, updatedTodo: Todo) => {
+  const updateTodo = (id: string, updatedTodo: Todo) => {
     setTodos((prevTodos) => ({
       ...prevTodos,
-      [selectedCategory]: prevTodos[selectedCategory].map((todo, i) =>
-        i === index ? updatedTodo : todo
+      [selectedCategory]: prevTodos[selectedCategory].map((todo) =>
+        todo.id === id ? updatedTodo : todo
       ),
     }));
   };
 
-  const removeTodo = (index: number) => {
-    const removedTodo = todos[selectedCategory][index];
-    setTrashTodos([
-      ...trashTodos,
-      { ...removedTodo, category: selectedCategory },
-    ]);
-    setTodos((prevTodos) => ({
-      ...prevTodos,
-      [selectedCategory]: prevTodos[selectedCategory].filter(
-        (_, i) => i !== index
-      ),
-    }));
+  const removeTodo = (id: string) => {
+    const removedTodo = todos[selectedCategory].find((todo) => todo.id === id);
+    if (removedTodo) {
+      setTrashTodos([
+        ...trashTodos,
+        { ...removedTodo, category: selectedCategory },
+      ]);
+      setTodos((prevTodos) => ({
+        ...prevTodos,
+        [selectedCategory]: prevTodos[selectedCategory].filter(
+          (todo) => todo.id !== id
+        ),
+      }));
+    }
   };
 
   const removeSelectedTodos = () => {
@@ -177,6 +180,23 @@ const TodoPage = () => {
     }
   };
 
+  const sortTodos = (todosList: Todo[]) => {
+    switch (sortMethod) {
+      case "dueDate":
+        return todosList.slice().sort((a, b) => {
+          if (!a.dueDate || !b.dueDate) return 0;
+          const dateA = new Date(a.dueDate + " " + (a.dueTime || ""));
+          const dateB = new Date(b.dueDate + " " + (b.dueTime || ""));
+          return dateA.getTime() - dateB.getTime();
+        });
+      case "priority":
+        return todosList.slice().sort((a, b) => b.priority - a.priority);
+      case "created":
+      default:
+        return todosList.slice();
+    }
+  };
+
   return (
     <div className="container mx-auto p-4">
       <CategoryBar
@@ -191,14 +211,15 @@ const TodoPage = () => {
         errorMessage={errorMessage}
         setErrorMessage={setErrorMessage}
       />
-
+      <div className="flex justify-end my-4">
+        <SortSelectBox selectedSort={sortMethod} onChange={setSortMethod} />
+      </div>
       <TodoList
-        todos={todos[selectedCategory] || []}
+        todos={sortTodos(todos[selectedCategory] || [])}
         updateTodo={updateTodo}
         removeTodo={removeTodo}
         setSelectedTodos={setSelectedTodos}
       />
-
       <div className="fixed bottom-4 right-4 flex gap-3">
         <TrashButton
           selectedTodos={selectedTodos}
@@ -206,13 +227,11 @@ const TodoPage = () => {
         />
         <TodoButton onOpenModal={() => setModalOpen(true)} />
       </div>
-
       <AddEditModal
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
         onAddTodo={addTodo}
       />
-
       {categoryEditModalOpen && (
         <CategoryEditModal
           isOpen={categoryEditModalOpen}
