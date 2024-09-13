@@ -6,8 +6,8 @@ import { FaCheck, FaXmark } from "react-icons/fa6";
 interface CategoryModalProps {
   onClose: () => void;
   onAddCategory: (category: string) => void;
-  errorMessage: string | null; // エラーメッセージの受け渡し
-  setErrorMessage: (message: string | null) => void; // エラーメッセージの設定関数
+  errorMessage: string | null;
+  setErrorMessage: (message: string | null) => void;
 }
 
 const CategoryModal = ({
@@ -24,27 +24,27 @@ const CategoryModal = ({
       return;
     }
     onAddCategory(categoryName);
-    setErrorMessage(null); // 成功したらエラーメッセージをクリア
+    setErrorMessage(null);
     setCategoryName("");
-    onClose(); // エラーがない場合のみモーダルを閉じる
+    onClose();
   };
 
   return (
     <div
       className="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center"
       onClick={() => {
-        if (!errorMessage) onClose(); // エラーがない場合のみモーダルを閉じる
+        if (!errorMessage) onClose();
       }}
     >
       <div
         className="bg-white p-6 rounded-lg shadow-lg w-10/12 sm:w-1/3"
-        onClick={(e) => e.stopPropagation()} // 内部部分のクリックイベントが外部に伝播しないようにする
+        onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold">Add New Category</h2>
           <button
             onClick={() => {
-              if (!errorMessage) onClose(); // エラーがない場合のみモーダルを閉じる
+              if (!errorMessage) onClose();
             }}
             className="text-red-500"
           >
@@ -64,7 +64,7 @@ const CategoryModal = ({
         <div className="flex justify-end gap-3">
           <button
             onClick={() => {
-              if (!errorMessage) onClose(); // エラーがない場合のみモーダルを閉じる
+              if (!errorMessage) onClose();
             }}
             className="bg-gray-400 text-white px-4 py-2 rounded flex items-center"
           >
