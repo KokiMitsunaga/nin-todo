@@ -188,12 +188,14 @@ const TodoPage = () => {
     switch (sortMethod) {
       case "dueDate":
         sortedTodos = todosList.slice().sort((a, b) => {
-          const dateA = a.dueDate
-            ? new Date(a.dueDate + " " + (a.dueTime || "")).getTime()
-            : FUTURE_DATE;
-          const dateB = b.dueDate
-            ? new Date(b.dueDate + " " + (b.dueTime || "")).getTime()
-            : FUTURE_DATE;
+          const dateA =
+            a.dueDate && !isNaN(Date.parse(a.dueDate + " " + (a.dueTime || "")))
+              ? Date.parse(a.dueDate + " " + (a.dueTime || ""))
+              : FUTURE_DATE;
+          const dateB =
+            b.dueDate && !isNaN(Date.parse(b.dueDate + " " + (b.dueTime || "")))
+              ? Date.parse(b.dueDate + " " + (b.dueTime || ""))
+              : FUTURE_DATE;
           return dateA - dateB;
         });
         break;
