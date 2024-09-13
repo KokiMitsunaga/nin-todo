@@ -50,14 +50,18 @@ const TrashPage = () => {
       const restoredTodo = trashTodos[selectedIndex];
       const todos = JSON.parse(localStorage.getItem("todos") || "{}");
 
-      // 選択されたカテゴリーに対して復元する
+      // カテゴリーが存在しない場合は新しく作成
       const updatedTodos = {
         ...todos,
-        [selectedCategory]: [...(todos[selectedCategory] || []), restoredTodo],
+        [selectedCategory]: [
+          ...(todos[selectedCategory] || []),
+          { ...restoredTodo, category: selectedCategory }, // カテゴリーを選択したものに更新
+        ],
       };
 
       localStorage.setItem("todos", JSON.stringify(updatedTodos));
 
+      // ゴミ箱から削除
       const updatedTrashTodos = trashTodos.filter(
         (_, i) => i !== selectedIndex
       );
