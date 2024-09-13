@@ -211,7 +211,7 @@ const TodoPage = () => {
         errorMessage={errorMessage}
         setErrorMessage={setErrorMessage}
       />
-      <div className="mb-4">
+      <div className="flex justify-end my-4">
         <SortSelectBox selectedSort={sortMethod} onChange={setSortMethod} />
       </div>
       <TodoList

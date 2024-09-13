@@ -16,7 +16,7 @@ const SortSelectBox = ({ selectedSort, onChange }: SortSelectBoxProps) => {
     <select
       value={selectedSort}
       onChange={handleChange}
-      className="border rounded p-2"
+      className="border rounded p-2 border-pink-600"
     >
       <option value="created">作成順</option>
       <option value="dueDate">期日順</option>
