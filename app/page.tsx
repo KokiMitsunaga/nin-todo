@@ -21,8 +21,9 @@ const TodoPage = () => {
   const [categoryEditModalOpen, setCategoryEditModalOpen] = useState(false);
   const [categoryToEdit, setCategoryToEdit] = useState<string | null>(null);
   const [sortMethod, setSortMethod] = useState("created");
-  const [sortOrderAsc, setSortOrderAsc] = useState(true); // 並び替えの昇順/降順の状態を管理するstateを追加
+  const [sortOrderAsc, setSortOrderAsc] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [editId, setEditId] = useState<string | null>(null);
 
   useEffect(() => {
     const savedTodos = localStorage.getItem("todos");
@@ -83,15 +84,34 @@ const TodoPage = () => {
       [selectedCategory]: [...(prevTodos[selectedCategory] || []), newTodo],
     }));
     setSelectedTodos([]);
+    setEditId(null);
   };
 
   const updateTodo = (id: string, updatedTodo: Todo) => {
-    setTodos((prevTodos) => ({
-      ...prevTodos,
-      [selectedCategory]: prevTodos[selectedCategory].map((todo) =>
-        todo.id === id ? updatedTodo : todo
-      ),
-    }));
+    const previousCategory = todos[selectedCategory].find(
+      (todo) => todo.id === id
+    )?.category;
+
+    if (updatedTodo.category !== previousCategory) {
+      setTodos((prevTodos) => ({
+        ...prevTodos,
+        [previousCategory!]: prevTodos[previousCategory!].filter(
+          (todo) => todo.id !== id
+        ),
+        [updatedTodo.category]: [
+          ...(prevTodos[updatedTodo.category] || []),
+          updatedTodo,
+        ],
+      }));
+    } else {
+      setTodos((prevTodos) => ({
+        ...prevTodos,
+        [selectedCategory]: prevTodos[selectedCategory].map((todo) =>
+          todo.id === id ? updatedTodo : todo
+        ),
+      }));
+    }
+    setEditId(null);
   };
 
   const removeTodo = (id: string) => {
@@ -251,6 +271,7 @@ const TodoPage = () => {
         updateTodo={updateTodo}
         removeTodo={removeTodo}
         setSelectedTodos={setSelectedTodos}
+        categories={categories}
       />
       <div className="fixed bottom-4 right-4 flex gap-3">
         <TrashButton
@@ -263,6 +284,14 @@ const TodoPage = () => {
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
         onAddTodo={addTodo}
+        categories={categories}
+        isEditMode={false}
+        initialCategory={
+          editId
+            ? todos[selectedCategory]?.find((todo) => todo.id === editId)
+                ?.category
+            : "TODO"
+        }
       />
       <CategoryEditModal
         isOpen={categoryEditModalOpen}
