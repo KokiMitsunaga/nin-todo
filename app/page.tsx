@@ -9,6 +9,7 @@ import CategoryBar from "./_components/CategoryBar";
 import { Todo } from "./_types/types";
 import CategoryEditModal from "./_components/CategoryEditModal";
 import SortSelectBox from "./_components/SortSelectBox";
+import SortToggleButton from "./_components/SrotToggleButton";
 
 const TodoPage = () => {
   const [todos, setTodos] = useState<{ [key: string]: Todo[] }>({});
@@ -20,6 +21,7 @@ const TodoPage = () => {
   const [categoryEditModalOpen, setCategoryEditModalOpen] = useState(false);
   const [categoryToEdit, setCategoryToEdit] = useState<string | null>(null);
   const [sortMethod, setSortMethod] = useState("created");
+  const [sortOrderAsc, setSortOrderAsc] = useState(true); // 並び替えの昇順/降順の状態を管理するstateを追加
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
@@ -194,17 +196,23 @@ const TodoPage = () => {
           const dateB = b.dueDate
             ? new Date(`${b.dueDate}T${b.dueTime || "00:00:00"}`).getTime()
             : FUTURE_DATE;
-          return dateA - dateB;
+          return sortOrderAsc ? dateA - dateB : dateB - dateA;
         });
         break;
       case "priority":
-        sortedTodos = todosList.slice().sort((a, b) => b.priority - a.priority);
+        sortedTodos = todosList
+          .slice()
+          .sort((a, b) =>
+            sortOrderAsc ? a.priority - b.priority : b.priority - a.priority
+          );
         break;
       case "created":
       default:
         sortedTodos = todosList
           .slice()
-          .sort((a, b) => a.id.localeCompare(b.id));
+          .sort((a, b) =>
+            sortOrderAsc ? a.id.localeCompare(b.id) : b.id.localeCompare(a.id)
+          );
         break;
     }
 
@@ -226,7 +234,17 @@ const TodoPage = () => {
         setErrorMessage={setErrorMessage}
       />
       <div className="flex justify-end my-4">
-        <SortSelectBox selectedSort={sortMethod} onChange={setSortMethod} />
+        <SortToggleButton
+          sortOrderAsc={sortOrderAsc}
+          toggleSortOrder={() => setSortOrderAsc(!sortOrderAsc)}
+        />
+        <SortSelectBox
+          selectedSort={sortMethod}
+          onChange={(newSortMethod) => {
+            setSortMethod(newSortMethod);
+            setSortOrderAsc(true);
+          }}
+        />
       </div>
       <TodoList
         todos={sortTodos(todos[selectedCategory] || [], sortMethod)}
@@ -246,17 +264,15 @@ const TodoPage = () => {
         onClose={() => setModalOpen(false)}
         onAddTodo={addTodo}
       />
-      {categoryEditModalOpen && (
-        <CategoryEditModal
-          isOpen={categoryEditModalOpen}
-          onClose={() => setCategoryEditModalOpen(false)}
-          category={categoryToEdit}
-          onEditCategory={handleEditCategory}
-          onDeleteCategory={handleDeleteCategory}
-          errorMessage={errorMessage}
-          setErrorMessage={setErrorMessage}
-        />
-      )}
+      <CategoryEditModal
+        isOpen={categoryEditModalOpen}
+        onClose={() => setCategoryEditModalOpen(false)}
+        category={categoryToEdit}
+        onEditCategory={handleEditCategory}
+        onDeleteCategory={handleDeleteCategory}
+        errorMessage={errorMessage}
+        setErrorMessage={setErrorMessage}
+      />
     </div>
   );
 };
