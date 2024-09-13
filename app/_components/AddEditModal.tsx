@@ -27,7 +27,7 @@ const Modal = ({
   onAddTodo,
   initialTitle = "",
   initialDescription = "",
-  initialPriority = 1,
+  initialPriority = 4,
   initialDueDate = "",
   initialDueTime = "",
   initialAllDay = false,
@@ -126,10 +126,10 @@ const Modal = ({
             className="border p-2 w-full"
             required
           >
-            <option value={1}>1</option>
-            <option value={2}>2</option>
+            <option value={4}>4(high)</option>
             <option value={3}>3</option>
-            <option value={4}>4</option>
+            <option value={2}>2</option>
+            <option value={1}>1(row)</option>
           </select>
         </div>
         <div className="mb-4">
