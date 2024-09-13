@@ -8,6 +8,7 @@ interface TodoListProps {
   updateTodo: (id: string, updatedTodo: Todo) => void;
   removeTodo: (id: string) => void;
   setSelectedTodos: (selectedTodos: Todo[]) => void;
+  categories: string[]; // カテゴリーの配列を追加
 }
 
 const TodoList = ({
@@ -15,6 +16,7 @@ const TodoList = ({
   updateTodo,
   removeTodo,
   setSelectedTodos,
+  categories,
 }: TodoListProps) => {
   const [editId, setEditId] = useState<string | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
@@ -127,6 +129,9 @@ const TodoList = ({
           initialDueDate={todos.find((todo) => todo.id === editId)!.dueDate}
           initialDueTime={todos.find((todo) => todo.id === editId)!.dueTime}
           initialAllDay={todos.find((todo) => todo.id === editId)!.allDay}
+          initialCategory={todos.find((todo) => todo.id === editId)!.category} // カテゴリーを渡す
+          categories={categories} // カテゴリーの配列を渡す
+          isEditMode={true} // 編集モードを有効にする
         />
       )}
       {deleteModalOpen && (

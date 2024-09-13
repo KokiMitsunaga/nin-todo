@@ -21,8 +21,9 @@ const TodoPage = () => {
   const [categoryEditModalOpen, setCategoryEditModalOpen] = useState(false);
   const [categoryToEdit, setCategoryToEdit] = useState<string | null>(null);
   const [sortMethod, setSortMethod] = useState("created");
-  const [sortOrderAsc, setSortOrderAsc] = useState(true); // 並び替えの昇順/降順の状態を管理するstateを追加
+  const [sortOrderAsc, setSortOrderAsc] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [editId, setEditId] = useState<string | null>(null); // 追加
 
   useEffect(() => {
     const savedTodos = localStorage.getItem("todos");
@@ -83,6 +84,7 @@ const TodoPage = () => {
       [selectedCategory]: [...(prevTodos[selectedCategory] || []), newTodo],
     }));
     setSelectedTodos([]);
+    setEditId(null); // 追加
   };
 
   const updateTodo = (id: string, updatedTodo: Todo) => {
@@ -92,6 +94,7 @@ const TodoPage = () => {
         todo.id === id ? updatedTodo : todo
       ),
     }));
+    setEditId(null); // 追加
   };
 
   const removeTodo = (id: string) => {
@@ -251,6 +254,7 @@ const TodoPage = () => {
         updateTodo={updateTodo}
         removeTodo={removeTodo}
         setSelectedTodos={setSelectedTodos}
+        categories={categories}
       />
       <div className="fixed bottom-4 right-4 flex gap-3">
         <TrashButton
@@ -263,6 +267,14 @@ const TodoPage = () => {
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
         onAddTodo={addTodo}
+        categories={categories}
+        isEditMode={false} // 編集モードではない
+        initialCategory={
+          editId
+            ? todos[selectedCategory]?.find((todo) => todo.id === editId)
+                ?.category
+            : "TODO"
+        }
       />
       <CategoryEditModal
         isOpen={categoryEditModalOpen}

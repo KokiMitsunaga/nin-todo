@@ -11,7 +11,8 @@ interface ModalProps {
     priority: number,
     dueDate?: string,
     dueTime?: string,
-    allDay?: boolean
+    allDay?: boolean,
+    category?: string
   ) => void;
   initialTitle?: string;
   initialDescription?: string;
@@ -19,6 +20,9 @@ interface ModalProps {
   initialDueDate?: string;
   initialDueTime?: string;
   initialAllDay?: boolean;
+  initialCategory?: string;
+  categories: string[];
+  isEditMode: boolean;
 }
 
 const Modal = ({
@@ -31,6 +35,9 @@ const Modal = ({
   initialDueDate = "",
   initialDueTime = "",
   initialAllDay = false,
+  initialCategory,
+  categories,
+  isEditMode,
 }: ModalProps) => {
   const [title, setTitle] = useState(initialTitle);
   const [description, setDescription] = useState(initialDescription);
@@ -38,6 +45,7 @@ const Modal = ({
   const [dueDate, setDueDate] = useState(initialDueDate);
   const [dueTime, setDueTime] = useState(initialDueTime);
   const [allDay, setAllDay] = useState(initialAllDay);
+  const [category, setCategory] = useState(initialCategory);
 
   useEffect(() => {
     setTitle(initialTitle);
@@ -46,6 +54,7 @@ const Modal = ({
     setDueDate(initialDueDate);
     setDueTime(initialDueTime);
     setAllDay(initialAllDay);
+    setCategory(initialCategory || "TODO"); // `initialCategory`がnullまたはundefinedの場合に"TODO"を設定
   }, [
     initialTitle,
     initialDescription,
@@ -53,11 +62,20 @@ const Modal = ({
     initialDueDate,
     initialDueTime,
     initialAllDay,
+    initialCategory,
   ]);
 
   const handleSaveClick = () => {
     if (title.trim() && priority >= 1 && priority <= 4) {
-      onAddTodo(title, description, priority, dueDate, dueTime, allDay);
+      onAddTodo(
+        title,
+        description,
+        priority,
+        dueDate,
+        dueTime,
+        allDay,
+        category
+      );
       resetForm();
       onClose();
     }
@@ -75,6 +93,7 @@ const Modal = ({
     setDueDate(initialDueDate);
     setDueTime(initialDueTime);
     setAllDay(initialAllDay);
+    setCategory(initialCategory);
   };
 
   const isFormValid = title.trim() !== "" && priority >= 1 && priority <= 4;
@@ -91,7 +110,9 @@ const Modal = ({
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold">Edit Todo</h2>
+          <h2 className="text-xl font-semibold">
+            {isEditMode ? "Edit Todo" : "Add Todo"}
+          </h2>
           <button onClick={handleClose} className="text-red-400">
             <FaXmark size={20} />
           </button>
@@ -129,9 +150,25 @@ const Modal = ({
             <option value={4}>4(high)</option>
             <option value={3}>3</option>
             <option value={2}>2</option>
-            <option value={1}>1(row)</option>
+            <option value={1}>1(low)</option>
           </select>
         </div>
+        {isEditMode && (
+          <div className="mb-4">
+            <label className="block mb-1">Category</label>
+            <select
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className="border p-2 w-full"
+            >
+              {categories.map((cat) => (
+                <option key={cat} value={cat}>
+                  {cat}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
         <div className="mb-4">
           <label className="block mb-1">Due Date</label>
           <input
