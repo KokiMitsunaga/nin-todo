@@ -24,7 +24,6 @@ const TrashPage = () => {
 
     let loadedCategories = savedCategories ? JSON.parse(savedCategories) : [];
 
-    // "TODO"カテゴリーを必ず含める
     if (!loadedCategories.includes("TODO")) {
       loadedCategories = ["TODO", ...loadedCategories];
     }
@@ -50,26 +49,23 @@ const TrashPage = () => {
       const restoredTodo = trashTodos[selectedIndex];
       const todos = JSON.parse(localStorage.getItem("todos") || "{}");
 
-      // カテゴリーが存在しない場合は新しく作成
       const updatedTodos = {
         ...todos,
         [selectedCategory]: [
           ...(todos[selectedCategory] || []),
-          { ...restoredTodo, category: selectedCategory }, // カテゴリーを選択したものに更新
+          { ...restoredTodo, category: selectedCategory },
         ],
       };
 
-      // "TODO" カテゴリーに復元する際のチェック
       if (selectedCategory === "TODO") {
         updatedTodos["TODO"] = updatedTodos["TODO"].map((todo: Todo) => ({
           ...todo,
-          category: "TODO", // カテゴリーを"TODO"に強制的に設定
+          category: "TODO",
         }));
       }
 
       localStorage.setItem("todos", JSON.stringify(updatedTodos));
 
-      // ゴミ箱から削除
       const updatedTrashTodos = trashTodos.filter(
         (_, i) => i !== selectedIndex
       );

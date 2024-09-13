@@ -148,7 +148,13 @@ const TodoPage = () => {
   const handleDeleteCategory = () => {
     if (categoryToEdit === "TODO") return;
     if (categoryToEdit) {
-      setTrashTodos([...trashTodos, ...(todos[categoryToEdit] || [])]);
+      // カテゴリーの項目をすべてTODOカテゴリーに再割り当てしてゴミ箱に移動
+      const todosToMoveToTrash = (todos[categoryToEdit] || []).map((todo) => ({
+        ...todo,
+        category: "TODO",
+      }));
+      setTrashTodos([...trashTodos, ...todosToMoveToTrash]);
+
       setCategories((prevCategories) =>
         prevCategories.filter((cat) => cat !== categoryToEdit)
       );
