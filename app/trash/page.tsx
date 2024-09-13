@@ -59,6 +59,14 @@ const TrashPage = () => {
         ],
       };
 
+      // "TODO" カテゴリーに復元する際のチェック
+      if (selectedCategory === "TODO") {
+        updatedTodos["TODO"] = updatedTodos["TODO"].map((todo: Todo) => ({
+          ...todo,
+          category: "TODO", // カテゴリーを"TODO"に強制的に設定
+        }));
+      }
+
       localStorage.setItem("todos", JSON.stringify(updatedTodos));
 
       // ゴミ箱から削除
