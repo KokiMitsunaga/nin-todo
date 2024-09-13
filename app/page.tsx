@@ -19,7 +19,6 @@ const TodoPage = () => {
   const [categoryEditModalOpen, setCategoryEditModalOpen] = useState(false);
   const [categoryToEdit, setCategoryToEdit] = useState<string | null>(null);
 
-  // エラーメッセージの状態を追加
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
@@ -189,8 +188,8 @@ const TodoPage = () => {
           setCategoryToEdit(category);
           setCategoryEditModalOpen(true);
         }}
-        errorMessage={errorMessage} // 追加
-        setErrorMessage={setErrorMessage} // 追加
+        errorMessage={errorMessage}
+        setErrorMessage={setErrorMessage}
       />
 
       <TodoList
@@ -221,21 +220,9 @@ const TodoPage = () => {
           category={categoryToEdit}
           onEditCategory={handleEditCategory}
           onDeleteCategory={handleDeleteCategory}
-          errorMessage={errorMessage} // 追加
-          setErrorMessage={setErrorMessage} // 追加
+          errorMessage={errorMessage}
+          setErrorMessage={setErrorMessage}
         />
-      )}
-
-      {errorMessage && (
-        <div className="fixed bottom-20 left-1/2 transform -translate-x-1/2 bg-red-500 text-white p-4 rounded shadow-lg">
-          {errorMessage}
-          <button
-            className="ml-4 text-sm"
-            onClick={() => setErrorMessage(null)}
-          >
-            閉じる
-          </button>
-        </div>
       )}
     </div>
   );

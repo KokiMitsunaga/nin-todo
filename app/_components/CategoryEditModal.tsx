@@ -10,8 +10,8 @@ interface CategoryEditModalProps {
   category: string | null;
   onEditCategory: (newName: string) => void;
   onDeleteCategory: () => void;
-  errorMessage: string | null; // エラーメッセージの受け渡し
-  setErrorMessage: (message: string | null) => void; // エラーメッセージの設定関数
+  errorMessage: string | null;
+  setErrorMessage: (message: string | null) => void;
 }
 
 const CategoryEditModal = ({
@@ -20,14 +20,14 @@ const CategoryEditModal = ({
   category,
   onEditCategory,
   onDeleteCategory,
-  errorMessage, // 追加
-  setErrorMessage, // 追加
+  errorMessage,
+  setErrorMessage,
 }: CategoryEditModalProps) => {
   const [newCategoryName, setNewCategoryName] = useState("");
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
 
   useEffect(() => {
-    setNewCategoryName(category || ""); // カテゴリー編集時に初期値をセット
+    setNewCategoryName(category || "");
   }, [category]);
 
   const handleSave = () => {
@@ -36,8 +36,8 @@ const CategoryEditModal = ({
       return;
     }
     onEditCategory(newCategoryName.trim());
-    setErrorMessage(null); // 成功したらエラーメッセージをクリア
-    onClose(); // エラーがない場合のみモーダルを閉じる
+    setErrorMessage(null);
+    onClose();
   };
 
   const handleDeleteCategory = () => {
@@ -56,7 +56,7 @@ const CategoryEditModal = ({
         className="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center"
         onClick={(e) => {
           if (!errorMessage && e.target === e.currentTarget) {
-            onClose(); // エラーがない場合のみモーダルを閉じる
+            onClose();
           }
         }}
       >
@@ -68,7 +68,7 @@ const CategoryEditModal = ({
             <h3 className="text-xl font-semibold">Edit Category: {category}</h3>
             <button
               onClick={() => {
-                if (!errorMessage) onClose(); // エラーがない場合のみモーダルを閉じる
+                if (!errorMessage) onClose();
               }}
               className="text-red-500"
             >
