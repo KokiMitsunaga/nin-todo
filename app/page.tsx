@@ -180,21 +180,35 @@ const TodoPage = () => {
     }
   };
 
-  const sortTodos = (todosList: Todo[]) => {
+  const sortTodos = (todosList: Todo[], sortMethod: string) => {
+    const FUTURE_DATE = new Date("2999-12-31").getTime();
+
+    let sortedTodos: Todo[];
+
     switch (sortMethod) {
       case "dueDate":
-        return todosList.slice().sort((a, b) => {
-          if (!a.dueDate || !b.dueDate) return 0;
-          const dateA = new Date(a.dueDate + " " + (a.dueTime || ""));
-          const dateB = new Date(b.dueDate + " " + (b.dueTime || ""));
-          return dateA.getTime() - dateB.getTime();
+        sortedTodos = todosList.slice().sort((a, b) => {
+          const dateA = a.dueDate
+            ? new Date(a.dueDate + " " + (a.dueTime || "")).getTime()
+            : FUTURE_DATE;
+          const dateB = b.dueDate
+            ? new Date(b.dueDate + " " + (b.dueTime || "")).getTime()
+            : FUTURE_DATE;
+          return dateA - dateB;
         });
+        break;
       case "priority":
-        return todosList.slice().sort((a, b) => b.priority - a.priority);
+        sortedTodos = todosList.slice().sort((a, b) => b.priority - a.priority);
+        break;
       case "created":
       default:
-        return todosList.slice();
+        sortedTodos = todosList
+          .slice()
+          .sort((a, b) => a.id.localeCompare(b.id));
+        break;
     }
+
+    return sortedTodos;
   };
 
   return (
@@ -215,7 +229,7 @@ const TodoPage = () => {
         <SortSelectBox selectedSort={sortMethod} onChange={setSortMethod} />
       </div>
       <TodoList
-        todos={sortTodos(todos[selectedCategory] || [])}
+        todos={sortTodos(todos[selectedCategory] || [], sortMethod)}
         updateTodo={updateTodo}
         removeTodo={removeTodo}
         setSelectedTodos={setSelectedTodos}
