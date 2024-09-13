@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ConfirmDeleteCategoryModal from "./ConfirmDeleteCategoryModal";
 import { FaCheck, FaXmark } from "react-icons/fa6";
 
@@ -10,6 +10,8 @@ interface CategoryEditModalProps {
   category: string | null;
   onEditCategory: (newName: string) => void;
   onDeleteCategory: () => void;
+  errorMessage: string | null; // エラーメッセージの受け渡し
+  setErrorMessage: (message: string | null) => void; // エラーメッセージの設定関数
 }
 
 const CategoryEditModal = ({
@@ -18,15 +20,24 @@ const CategoryEditModal = ({
   category,
   onEditCategory,
   onDeleteCategory,
+  errorMessage, // 追加
+  setErrorMessage, // 追加
 }: CategoryEditModalProps) => {
   const [newCategoryName, setNewCategoryName] = useState("");
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
 
+  useEffect(() => {
+    setNewCategoryName(category || ""); // カテゴリー編集時に初期値をセット
+  }, [category]);
+
   const handleSave = () => {
-    if (newCategoryName.trim()) {
-      onEditCategory(newCategoryName.trim());
-      onClose();
+    if (!newCategoryName.trim()) {
+      setErrorMessage("カテゴリー名を入力してください。");
+      return;
     }
+    onEditCategory(newCategoryName.trim());
+    setErrorMessage(null); // 成功したらエラーメッセージをクリア
+    onClose(); // エラーがない場合のみモーダルを閉じる
   };
 
   const handleDeleteCategory = () => {
@@ -44,8 +55,8 @@ const CategoryEditModal = ({
       <div
         className="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center"
         onClick={(e) => {
-          if (e.target === e.currentTarget) {
-            onClose();
+          if (!errorMessage && e.target === e.currentTarget) {
+            onClose(); // エラーがない場合のみモーダルを閉じる
           }
         }}
       >
@@ -55,7 +66,12 @@ const CategoryEditModal = ({
         >
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-xl font-semibold">Edit Category: {category}</h3>
-            <button onClick={onClose} className="text-red-500">
+            <button
+              onClick={() => {
+                if (!errorMessage) onClose(); // エラーがない場合のみモーダルを閉じる
+              }}
+              className="text-red-500"
+            >
               <FaXmark size={20} />
             </button>
           </div>
@@ -66,6 +82,9 @@ const CategoryEditModal = ({
             onChange={(e) => setNewCategoryName(e.target.value)}
             className="border border-gray-300 p-2 rounded w-full mb-4"
           />
+          {errorMessage && (
+            <div className="text-red-500 mb-4">{errorMessage}</div>
+          )}
           <div className="flex justify-end gap-3">
             <button
               onClick={handleSave}
