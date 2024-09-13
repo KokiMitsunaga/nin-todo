@@ -8,6 +8,7 @@ interface TodoListProps {
   updateTodo: (id: string, updatedTodo: Todo) => void;
   removeTodo: (id: string) => void;
   setSelectedTodos: (selectedTodos: Todo[]) => void;
+  categories: string[];
 }
 
 const TodoList = ({
@@ -15,6 +16,7 @@ const TodoList = ({
   updateTodo,
   removeTodo,
   setSelectedTodos,
+  categories,
 }: TodoListProps) => {
   const [editId, setEditId] = useState<string | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
@@ -42,9 +44,11 @@ const TodoList = ({
     priority: number,
     dueDate?: string,
     dueTime?: string,
-    allDay?: boolean
+    allDay?: boolean,
+    category?: string
   ) => {
     if (editId) {
+      const todoToUpdate = todos.find((todo) => todo.id === editId);
       updateTodo(editId, {
         id: editId,
         title,
@@ -53,7 +57,7 @@ const TodoList = ({
         dueDate,
         dueTime,
         allDay,
-        category: todos.find((todo) => todo.id === editId)!.category,
+        category: category || todoToUpdate!.category,
       });
       setEditId(null);
     }
@@ -127,6 +131,9 @@ const TodoList = ({
           initialDueDate={todos.find((todo) => todo.id === editId)!.dueDate}
           initialDueTime={todos.find((todo) => todo.id === editId)!.dueTime}
           initialAllDay={todos.find((todo) => todo.id === editId)!.allDay}
+          initialCategory={todos.find((todo) => todo.id === editId)!.category}
+          categories={categories}
+          isEditMode={true}
         />
       )}
       {deleteModalOpen && (
