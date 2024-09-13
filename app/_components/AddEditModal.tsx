@@ -54,7 +54,7 @@ const Modal = ({
     setDueDate(initialDueDate);
     setDueTime(initialDueTime);
     setAllDay(initialAllDay);
-    setCategory(initialCategory || "TODO"); // `initialCategory`がnullまたはundefinedの場合に"TODO"を設定
+    setCategory(initialCategory || "TODO");
   }, [
     initialTitle,
     initialDescription,
