@@ -9,10 +9,6 @@ import CategoryBar from "./_components/CategoryBar";
 import { Todo } from "./_types/types";
 import CategoryEditModal from "./_components/CategoryEditModal";
 import SortSelectBox from "./_components/SortSelectBox";
-import {
-  HiOutlineSortDescending,
-  HiOutlineSortAscending,
-} from "react-icons/hi"; // 追加
 import SortToggleButton from "./_components/SrotToggleButton";
 
 const TodoPage = () => {
