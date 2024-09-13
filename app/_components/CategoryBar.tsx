@@ -8,9 +8,9 @@ interface CategoryBarProps {
   selectedCategory: string;
   onAddCategory: (category: string) => void;
   onSelectCategory: (category: string) => void;
-  onEditCategory: (category: string) => void; // 追加
-  errorMessage: string | null; // エラーメッセージの受け渡し
-  setErrorMessage: (message: string | null) => void; // エラーメッセージの設定関数
+  onEditCategory: (category: string) => void;
+  errorMessage: string | null;
+  setErrorMessage: (message: string | null) => void;
 }
 
 const CategoryBar = ({
@@ -18,7 +18,7 @@ const CategoryBar = ({
   selectedCategory,
   onAddCategory,
   onSelectCategory,
-  onEditCategory, // 追加
+  onEditCategory,
   errorMessage,
   setErrorMessage,
 }: CategoryBarProps) => {
@@ -66,8 +66,8 @@ const CategoryBar = ({
         <CategoryModal
           onClose={() => setIsModalOpen(false)}
           onAddCategory={handleAddCategory}
-          errorMessage={errorMessage} // 追加
-          setErrorMessage={setErrorMessage} // 追加
+          errorMessage={errorMessage}
+          setErrorMessage={setErrorMessage}
         />
       )}
     </div>
