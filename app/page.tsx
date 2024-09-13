@@ -19,6 +19,9 @@ const TodoPage = () => {
   const [categoryEditModalOpen, setCategoryEditModalOpen] = useState(false);
   const [categoryToEdit, setCategoryToEdit] = useState<string | null>(null);
 
+  // エラーメッセージの状態を追加
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
   useEffect(() => {
     const savedTodos = localStorage.getItem("todos");
     const savedCategories = localStorage.getItem("categories");
@@ -120,6 +123,10 @@ const TodoPage = () => {
   };
 
   const handleAddCategory = (category: string) => {
+    if (categories.includes(category)) {
+      setErrorMessage("このカテゴリー名は既に存在します。");
+      return;
+    }
     if (category === "TODO") return;
     setCategories((prevCategories) => [...prevCategories, category]);
     setTodos((prevTodos) => ({
@@ -131,6 +138,10 @@ const TodoPage = () => {
 
   const handleEditCategory = (newName: string) => {
     if (categoryToEdit === "TODO") return;
+    if (categories.includes(newName)) {
+      setErrorMessage("このカテゴリー名は既に存在します。");
+      return;
+    }
     if (categoryToEdit) {
       setCategories((prevCategories) =>
         prevCategories.map((cat) => (cat === categoryToEdit ? newName : cat))
@@ -148,7 +159,6 @@ const TodoPage = () => {
   const handleDeleteCategory = () => {
     if (categoryToEdit === "TODO") return;
     if (categoryToEdit) {
-      // カテゴリーの項目をすべてTODOカテゴリーに再割り当てしてゴミ箱に移動
       const todosToMoveToTrash = (todos[categoryToEdit] || []).map((todo) => ({
         ...todo,
         category: "TODO",
@@ -210,6 +220,18 @@ const TodoPage = () => {
           onEditCategory={handleEditCategory}
           onDeleteCategory={handleDeleteCategory}
         />
+      )}
+
+      {errorMessage && (
+        <div className="fixed bottom-20 left-1/2 transform -translate-x-1/2 bg-red-500 text-white p-4 rounded shadow-lg">
+          {errorMessage}
+          <button
+            className="ml-4 text-sm"
+            onClick={() => setErrorMessage(null)}
+          >
+            閉じる
+          </button>
+        </div>
       )}
     </div>
   );
