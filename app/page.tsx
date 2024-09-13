@@ -189,6 +189,8 @@ const TodoPage = () => {
           setCategoryToEdit(category);
           setCategoryEditModalOpen(true);
         }}
+        errorMessage={errorMessage} // 追加
+        setErrorMessage={setErrorMessage} // 追加
       />
 
       <TodoList
@@ -219,6 +221,8 @@ const TodoPage = () => {
           category={categoryToEdit}
           onEditCategory={handleEditCategory}
           onDeleteCategory={handleDeleteCategory}
+          errorMessage={errorMessage} // 追加
+          setErrorMessage={setErrorMessage} // 追加
         />
       )}
 
