@@ -121,7 +121,7 @@ const Modal = ({
       >
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold">
-            {isEditMode ? "Edit Todo" : "Add Todo"}
+            {isEditMode ? "Todoの編集" : "Todoの作成"}
           </h2>
           <button onClick={handleClose} className="text-red-400">
             <FaXmark size={20} />
@@ -129,7 +129,7 @@ const Modal = ({
         </div>
         <div className="mb-4">
           <label className="block mb-1">
-            Title <span className="text-red-500 text-sm">(required)</span>
+            タイトル <span className="text-red-500 text-sm">(必須)</span>
           </label>
           <input
             type="text"
@@ -140,7 +140,7 @@ const Modal = ({
           />
         </div>
         <div className="mb-4">
-          <label className="block mb-1">Description</label>
+          <label className="block mb-1">詳細</label>
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
@@ -149,7 +149,7 @@ const Modal = ({
         </div>
         <div className="mb-4">
           <label className="block mb-1">
-            Priority <span className="text-red-500 text-sm">(required)</span>
+            優先度 <span className="text-red-500 text-sm">(必須)</span>
           </label>
           <select
             value={priority}
@@ -157,15 +157,15 @@ const Modal = ({
             className="border p-2 w-full"
             required
           >
-            <option value={4}>4(high)</option>
+            <option value={4}>4(高)</option>
             <option value={3}>3</option>
             <option value={2}>2</option>
-            <option value={1}>1(low)</option>
+            <option value={1}>1(低)</option>
           </select>
         </div>
         {isEditMode && (
           <div className="mb-4">
-            <label className="block mb-1">Category</label>
+            <label className="block mb-1">カテゴリー</label>
             <select
               value={category}
               onChange={(e) => setCategory(e.target.value)}
@@ -180,7 +180,7 @@ const Modal = ({
           </div>
         )}
         <div className="mb-4">
-          <label className="block mb-1">Due Date</label>
+          <label className="block mb-1">期限(日にち)</label>
           <input
             type="date"
             value={dueDate}
@@ -189,7 +189,7 @@ const Modal = ({
           />
         </div>
         <div className="mb-4">
-          <label className="block mb-1">Due Time</label>
+          <label className="block mb-1">期限(時間)</label>
           <input
             type="time"
             value={dueTime}
@@ -199,7 +199,7 @@ const Modal = ({
           />
         </div>
         <div className="mb-4 flex items-center">
-          <label className="mr-4">All day</label>
+          <label className="mr-4">終日</label>
           <Switch
             onChange={(checked) => setAllDay(checked)}
             checked={allDay}
@@ -225,7 +225,7 @@ const Modal = ({
             }`}
           >
             <FaCheck size={16} />
-            <span className="ml-2">Save</span>
+            <span className="ml-2">保存</span>
           </button>
         </div>
       </div>

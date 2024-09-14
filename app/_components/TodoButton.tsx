@@ -11,7 +11,7 @@ const TodoButton = ({ onOpenModal }: TodoButtonProps) => {
       className="bg-pink-600 text-white p-4 rounded-full border flex items-center justify-center"
     >
       <IoIosAdd size={20} />
-      <span className="ml-2">Add</span>
+      <span className="ml-2">作成</span>
     </button>
   );
 };

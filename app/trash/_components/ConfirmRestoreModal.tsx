@@ -50,13 +50,12 @@ const ConfirmRestoreModal = ({
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-xl font-semibold">
-            Choose a category to restore
-          </h3>
+          <h3 className="text-xl font-semibold">復元</h3>
           <button onClick={onClose} className="text-red-500">
             <FaXmark size={20} />
           </button>
         </div>
+        <p className="mb-4">復元先のカテゴリーを選択してください</p>
         <select
           value={selectedCategory}
           onChange={(e) => setSelectedCategory(e.target.value)}
@@ -74,7 +73,7 @@ const ConfirmRestoreModal = ({
             className="bg-gray-400 text-white px-4 py-2 rounded flex items-center"
           >
             <FaXmark size={16} className="mr-1" />
-            Cancel
+            キャンセル
           </button>
           <button
             onClick={handleConfirm}
@@ -86,7 +85,7 @@ const ConfirmRestoreModal = ({
             disabled={isConfirmDisabled}
           >
             <FaCheck size={16} className="mr-1" />
-            Restore
+            復元
           </button>
         </div>
       </div>

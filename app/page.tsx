@@ -241,7 +241,7 @@ const TodoPage = () => {
   };
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto px-4 pb-10">
       <CategoryBar
         categories={categories}
         selectedCategory={selectedCategory}

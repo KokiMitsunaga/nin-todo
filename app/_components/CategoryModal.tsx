@@ -41,7 +41,7 @@ const CategoryModal = ({
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold">Add New Category</h2>
+          <h2 className="text-xl font-semibold">カテゴリーの作成</h2>
           <button
             onClick={() => {
               if (!errorMessage) onClose();
@@ -56,7 +56,7 @@ const CategoryModal = ({
           value={categoryName}
           onChange={(e) => setCategoryName(e.target.value)}
           className="border border-gray-300 p-2 rounded w-full mb-4"
-          placeholder="Category Name"
+          placeholder="カテゴリー名"
         />
         {errorMessage && (
           <div className="text-red-500 mb-4">{errorMessage}</div>
@@ -69,14 +69,14 @@ const CategoryModal = ({
             className="bg-gray-400 text-white px-4 py-2 rounded flex items-center"
           >
             <FaXmark size={16} />
-            <span className="ml-1">Cancel</span>
+            <span className="ml-1">キャンセル</span>
           </button>
           <button
             onClick={handleAdd}
             className="bg-blue-500 text-white px-4 py-2 rounded flex items-center"
           >
             <FaCheck size={16} />
-            <span className="ml-1">Add</span>
+            <span className="ml-1">作成</span>
           </button>
         </div>
       </div>
