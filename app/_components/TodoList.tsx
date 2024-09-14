@@ -76,11 +76,18 @@ const TodoList = ({
   };
 
   const handleCheckboxChange = (id: string) => {
-    setSelectedIds((prevSelectedIds) =>
-      prevSelectedIds.includes(id)
+    setSelectedIds((prevSelectedIds) => {
+      const newSelectedIds = prevSelectedIds.includes(id)
         ? prevSelectedIds.filter((selectedId) => selectedId !== id)
-        : [...prevSelectedIds, id]
-    );
+        : [...prevSelectedIds, id];
+
+      const selectedTodos = newSelectedIds.map(
+        (selectedId) => todos.find((todo) => todo.id === selectedId)!
+      );
+
+      setSelectedTodos(selectedTodos);
+      return newSelectedIds;
+    });
   };
 
   useEffect(() => {
