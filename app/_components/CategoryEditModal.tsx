@@ -87,18 +87,18 @@ const CategoryEditModal = ({
           )}
           <div className="flex justify-end gap-3">
             <button
-              onClick={handleSave}
-              className="bg-blue-500 text-white px-4 py-2 rounded flex items-center"
-            >
-              <FaCheck size={16} />
-              <span className="ml-1">Save</span>
-            </button>
-            <button
               onClick={handleDeleteCategory}
               className="bg-red-500 text-white px-4 py-2 rounded flex items-center"
             >
               <FaXmark size={16} />
               <span className="ml-1">Delete</span>
+            </button>
+            <button
+              onClick={handleSave}
+              className="bg-blue-500 text-white px-4 py-2 rounded flex items-center"
+            >
+              <FaCheck size={16} />
+              <span className="ml-1">Save</span>
             </button>
           </div>
         </div>
