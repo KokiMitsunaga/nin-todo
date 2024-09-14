@@ -56,7 +56,7 @@ const CategoryBar = ({
           ))}
           <button
             onClick={() => setIsModalOpen(true)}
-            className="ml-auto text-blue-500 hover:text-blue-700"
+            className="ml-auto text-blue-500"
           >
             ＋
           </button>

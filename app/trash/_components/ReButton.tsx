@@ -11,7 +11,7 @@ const ReButton = ({ onClick }: ReButtonProps) => {
       className="bg-green-500 text-white px-2 py-1 rounded flex items-center mr-2"
     >
       <MdRestore size={20} />
-      <span className="ml-1">Restore</span>
+      <span className="ml-1">復元</span>
     </button>
   );
 };

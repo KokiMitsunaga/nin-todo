@@ -17,15 +17,14 @@ const NavButton = ({ icon, label, route, setIsOpen }: NavButtonProps) => {
     setIsOpen(false);
     router.push(route);
 
-    // 遷移後にスクロールを調整するために少し待つ
-    const hash = route.split("#")[1]; // URLにハッシュがあるか確認
+    const hash = route.split("#")[1];
     if (hash) {
       setTimeout(() => {
         const element = document.getElementById(hash);
         if (element) {
           element.scrollIntoView({ behavior: "smooth", block: "center" });
         }
-      }, 100); // 少し遅延させてからスクロールする
+      }, 100);
     }
   };
 
