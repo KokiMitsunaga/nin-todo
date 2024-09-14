@@ -6,7 +6,7 @@ export default function TrashSection() {
         <div id="trash-restore">
           <h3 className="text-xl font-semibold">復元</h3>
           <ul className="list-disc ml-5">
-            <li>復元したい項目のRestoreボタンを押すことで復元が可能です。</li>
+            <li>復元したい項目の復元ボタンを押すことで復元が可能です。</li>
             <li>復元先のカテゴリーを選択することができます。</li>
           </ul>
         </div>

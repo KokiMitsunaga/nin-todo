@@ -27,7 +27,7 @@ export default function CategorySection() {
           <h3 className="text-xl font-semibold">削除</h3>
           <ul className="list-disc ml-5">
             <li>
-              選択中のカテゴリーを削除するには、カテゴリー編集画面左側のdeleteボタンを押します。
+              選択中のカテゴリーを削除するには、カテゴリー編集画面左側の削除ボタンを押します。
             </li>
             <li>一度削除すると、元に戻すことはできません。</li>
           </ul>
@@ -37,7 +37,7 @@ export default function CategorySection() {
           <ul className="list-disc ml-5">
             <li>カテゴリーが複数ある場合に使用可能です。</li>
             <li>
-              カテゴリーの移動をしたい項目をタップし、category欄から移動したいカテゴリーを選ぶことで移動ができます。
+              カテゴリーの移動をしたい項目をタップし、カテゴリー欄から移動したいカテゴリーを選ぶことで移動ができます。
             </li>
           </ul>
         </div>
