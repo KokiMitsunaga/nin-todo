@@ -33,6 +33,107 @@ const NavMenu = ({ setIsOpen }: NavMenuProps) => {
         route="/howto"
         setIsOpen={setIsOpen}
       />
+      <div className="ml-6 space-y-2">
+        <NavButton
+          icon={null}
+          label="1. Todo"
+          route="/howto#todo"
+          setIsOpen={setIsOpen}
+        />
+        <NavButton
+          icon={null}
+          label="作成"
+          route="/howto#todo-create"
+          setIsOpen={setIsOpen}
+        />
+        <NavButton
+          icon={null}
+          label="編集"
+          route="/howto#todo-edit"
+          setIsOpen={setIsOpen}
+        />
+        <NavButton
+          icon={null}
+          label="削除"
+          route="/howto#todo-delete"
+          setIsOpen={setIsOpen}
+        />
+
+        <NavButton
+          icon={null}
+          label="2. カテゴリー"
+          route="/howto#category"
+          setIsOpen={setIsOpen}
+        />
+        <NavButton
+          icon={null}
+          label="作成"
+          route="/howto#category-create"
+          setIsOpen={setIsOpen}
+        />
+        <NavButton
+          icon={null}
+          label="編集"
+          route="/howto#category-edit"
+          setIsOpen={setIsOpen}
+        />
+        <NavButton
+          icon={null}
+          label="削除"
+          route="/howto#category-delete"
+          setIsOpen={setIsOpen}
+        />
+        <NavButton
+          icon={null}
+          label="カテゴリーの移動"
+          route="/howto#category-move"
+          setIsOpen={setIsOpen}
+        />
+        <NavButton
+          icon={null}
+          label="おすすめの使い方"
+          route="/howto#category-tips"
+          setIsOpen={setIsOpen}
+        />
+
+        <NavButton
+          icon={null}
+          label="3. 並び替え"
+          route="/howto#sorting"
+          setIsOpen={setIsOpen}
+        />
+        <NavButton
+          icon={null}
+          label="並び替えの種類"
+          route="/howto#sorting-type"
+          setIsOpen={setIsOpen}
+        />
+        <NavButton
+          icon={null}
+          label="逆順"
+          route="/howto#sorting-reverse"
+          setIsOpen={setIsOpen}
+        />
+
+        <NavButton
+          icon={null}
+          label="4. ゴミ箱"
+          route="/howto#trash"
+          setIsOpen={setIsOpen}
+        />
+        <NavButton
+          icon={null}
+          label="復元"
+          route="/howto#trash-restore"
+          setIsOpen={setIsOpen}
+        />
+        <NavButton
+          icon={null}
+          label="削除"
+          route="/howto#trash-delete"
+          setIsOpen={setIsOpen}
+        />
+      </div>
     </div>
   );
 };

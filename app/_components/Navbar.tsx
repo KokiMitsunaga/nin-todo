@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import NavMenu from "./NavMenu";
 
-const Title = () => {
+const Navbar = () => {
   const router = useRouter();
   const handleClick = () => {
     router.push("/");
@@ -24,7 +24,7 @@ const Title = () => {
 
   return (
     <div
-      className={`bg-pink-600 flex items-center justify-between ${
+      className={`bg-pink-600 flex items-center justify-between fixed top-0 w-full z-50 ${
         showNavbar ? "top-0" : "-top-44"
       } transition-all duration-1000 ease-out border`}
     >
@@ -56,7 +56,7 @@ const Title = () => {
       <div
         className={`fixed top-0 right-0 w-full h-full bg-gray-50 transition-transform duration-500 ease-in-out z-10 ${
           isOpen ? "translate-x-0" : "translate-x-full"
-        } flex items-start justify-center pt-32`}
+        } flex items-center justify-center`}
       >
         {isOpen && <NavMenu setIsOpen={setIsOpen} />}
       </div>
@@ -64,4 +64,4 @@ const Title = () => {
   );
 };
 
-export default Title;
+export default Navbar;

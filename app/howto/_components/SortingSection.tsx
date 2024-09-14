@@ -1,9 +1,9 @@
 export default function SortingSection() {
   return (
-    <section className="mb-12">
+    <section id="sorting" className="mb-12">
       <h2 className="text-2xl font-semibold mb-4">3. 並び替え</h2>
       <div className="space-y-4">
-        <div>
+        <div id="sorting-type">
           <h3 className="text-xl font-semibold">並び替えの種類</h3>
           <ul className="list-disc ml-5">
             <li>
@@ -11,7 +11,7 @@ export default function SortingSection() {
             </li>
           </ul>
         </div>
-        <div>
+        <div id="sortiing-reverse">
           <h3 className="text-xl font-semibold">逆順</h3>
           <ul className="list-disc ml-5">
             <li>
