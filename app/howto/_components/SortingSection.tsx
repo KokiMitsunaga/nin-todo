@@ -11,7 +11,7 @@ export default function SortingSection() {
             </li>
           </ul>
         </div>
-        <div id="sortiing-reverse">
+        <div id="sorting-reverse">
           <h3 className="text-xl font-semibold">逆順</h3>
           <ul className="list-disc ml-5">
             <li>
