@@ -65,7 +65,9 @@ const CategoryEditModal = ({
           onClick={(e) => e.stopPropagation()}
         >
           <div className="flex justify-between items-center mb-4">
-            <h3 className="text-xl font-semibold">Edit Category: {category}</h3>
+            <h3 className="text-xl font-semibold">
+              カテゴリーの編集: {category}
+            </h3>
             <button
               onClick={() => {
                 if (!errorMessage) onClose();
@@ -91,14 +93,14 @@ const CategoryEditModal = ({
               className="bg-red-500 text-white px-4 py-2 rounded flex items-center"
             >
               <FaXmark size={16} />
-              <span className="ml-1">Delete</span>
+              <span className="ml-1">削除</span>
             </button>
             <button
               onClick={handleSave}
               className="bg-blue-500 text-white px-4 py-2 rounded flex items-center"
             >
               <FaCheck size={16} />
-              <span className="ml-1">Save</span>
+              <span className="ml-1">保存</span>
             </button>
           </div>
         </div>

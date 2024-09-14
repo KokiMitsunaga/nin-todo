@@ -26,19 +26,19 @@ const ConfirmDeleteCategoryModal = ({
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold">Confirm Delete</h2>
+          <h2 className="text-xl font-semibold">削除の確認</h2>
           <button onClick={onClose} className="text-red-500">
             <FaXmark size={20} />
           </button>
         </div>
-        <p className="mb-4">Are you sure you want to delete this category?</p>
+        <p className="mb-4">カテゴリーを削除してもよろしいですか？</p>
         <div className="flex justify-end gap-3">
           <button
             onClick={onClose}
             className="bg-gray-400 text-white px-4 py-2 rounded flex items-center"
           >
             <FaXmark size={16} />
-            <span className="ml-1">Cancel</span>
+            <span className="ml-1">キャンセル</span>
           </button>
           <button
             onClick={() => {
@@ -48,7 +48,7 @@ const ConfirmDeleteCategoryModal = ({
             className="bg-red-500 text-white px-4 py-2 rounded flex items-center"
           >
             <FaCheck size={16} />
-            <span className="ml-1">Confirm</span>
+            <span className="ml-1">削除</span>
           </button>
         </div>
       </div>

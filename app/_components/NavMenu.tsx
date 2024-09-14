@@ -12,24 +12,36 @@ const NavMenu = ({ setIsOpen }: NavMenuProps) => {
   return (
     <div className="p-6 bg-white text-black rounded shadow-lg mx-10 w-full max-w-md h-full max-h-[80vh] flex flex-col gap-6 overflow-y-auto">
       <NavButton
-        icon={<FaHome size={24} />}
-        label="Home"
+        icon={
+          <div className="text-pink-600">
+            <FaHome size={24} />
+          </div>
+        }
+        label="Todoリスト"
         route="/"
         setIsOpen={setIsOpen}
       />
       <hr className="w-full border-t border-gray-300" />
 
       <NavButton
-        icon={<IoTrash size={24} />}
-        label="Trash"
+        icon={
+          <div className="text-pink-600">
+            <IoTrash size={24} />
+          </div>
+        }
+        label="ゴミ箱"
         route="/trash"
         setIsOpen={setIsOpen}
       />
       <hr className="w-full border-t border-gray-300" />
 
       <NavButton
-        icon={<FaLightbulb size={24} />}
-        label="How To"
+        icon={
+          <div className="text-pink-600">
+            <FaLightbulb size={24} />
+          </div>
+        }
+        label="使い方"
         route="/howto"
         setIsOpen={setIsOpen}
       />
