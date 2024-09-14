@@ -223,7 +223,7 @@ const TodoPage = () => {
         sortedTodos = todosList
           .slice()
           .sort((a, b) =>
-            sortOrderAsc ? a.priority - b.priority : b.priority - a.priority
+            sortOrderAsc ? b.priority - a.priority : a.priority - b.priority
           );
         break;
       case "created":

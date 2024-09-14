@@ -31,9 +31,9 @@ const CategoryModal = ({
 
   return (
     <div
-      className="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center"
-      onClick={() => {
-        if (!errorMessage) onClose();
+      className="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center z-50"
+      onClick={(e) => {
+        if (!errorMessage && e.target === e.currentTarget) onClose();
       }}
     >
       <div

@@ -102,11 +102,15 @@ const Modal = ({
 
   return (
     <div
-      className="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center z-20"
+      className="fixed inset-0 bg-gray-500 bg-opacity-75 flex justify-center items-center z-30 overflow-y-auto"
+      style={{
+        paddingBottom: "4rem",
+        paddingTop: "calc(4rem + 4rem)",
+      }}
       onClick={handleClose}
     >
       <div
-        className="bg-white p-6 rounded-lg shadow-lg w-10/12"
+        className="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg mx-4 my-8 max-h-[80vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-between items-center mb-4">

@@ -25,13 +25,8 @@ const TodoList = ({
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
   useEffect(() => {
-    if (selectedIds.length > 0) {
-      const selectedTodos = selectedIds.map(
-        (id) => todos.find((todo) => todo.id === id)!
-      );
-      setSelectedTodos(selectedTodos);
-    }
-  }, [selectedIds, todos]);
+    setSelectedIds([]);
+  }, [todos.length]);
 
   const handleItemClick = (id: string) => {
     setEditId(id);
@@ -76,11 +71,18 @@ const TodoList = ({
   };
 
   const handleCheckboxChange = (id: string) => {
-    setSelectedIds((prevSelectedIds) =>
-      prevSelectedIds.includes(id)
+    setSelectedIds((prevSelectedIds) => {
+      const newSelectedIds = prevSelectedIds.includes(id)
         ? prevSelectedIds.filter((selectedId) => selectedId !== id)
-        : [...prevSelectedIds, id]
-    );
+        : [...prevSelectedIds, id];
+
+      const selectedTodos = newSelectedIds.map(
+        (selectedId) => todos.find((todo) => todo.id === selectedId)!
+      );
+
+      setSelectedTodos(selectedTodos);
+      return newSelectedIds;
+    });
   };
 
   useEffect(() => {
