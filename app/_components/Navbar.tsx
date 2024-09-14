@@ -10,13 +10,7 @@ const Navbar = () => {
     router.push("/");
   };
   const [isOpen, setIsOpen] = useState(false);
-  const [showNavbar, setShowNavbar] = useState(false);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setShowNavbar(true);
-    }, 3000);
-  }, []);
+  const [showNavbar, setShowNavbar] = useState(true); // すぐに表示するため初期値を true に変更
 
   useEffect(() => {
     if (isOpen) {
