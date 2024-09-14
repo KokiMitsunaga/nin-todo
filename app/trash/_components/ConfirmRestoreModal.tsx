@@ -70,6 +70,13 @@ const ConfirmRestoreModal = ({
         </select>
         <div className="flex justify-end gap-3">
           <button
+            onClick={onClose}
+            className="bg-gray-400 text-white px-4 py-2 rounded flex items-center"
+          >
+            <FaXmark size={16} className="mr-1" />
+            Cancel
+          </button>
+          <button
             onClick={handleConfirm}
             className={`px-4 py-2 rounded flex items-center ${
               isConfirmDisabled
@@ -80,13 +87,6 @@ const ConfirmRestoreModal = ({
           >
             <FaCheck size={16} className="mr-1" />
             Restore
-          </button>
-          <button
-            onClick={onClose}
-            className="bg-red-500 text-white px-4 py-2 rounded flex items-center"
-          >
-            <FaXmark size={16} className="mr-1" />
-            Cancel
           </button>
         </div>
       </div>
