@@ -30,6 +30,7 @@ const CategoryEditModal = ({
     setNewCategoryName(category || "");
   }, [category]);
 
+  // 保存ボタンがクリックされたときの処理
   const handleSave = () => {
     if (!newCategoryName.trim()) {
       setErrorMessage("カテゴリー名を入力してください。");
@@ -40,10 +41,12 @@ const CategoryEditModal = ({
     onClose();
   };
 
+  // 削除ボタンがクリックされたときの処理
   const handleDeleteCategory = () => {
     setShowConfirmDelete(true);
   };
 
+  // 削除確認モーダルで削除が確認されたときの処理
   const handleConfirmDelete = () => {
     if (category) {
       onDeleteCategory();

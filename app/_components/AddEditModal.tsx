@@ -47,6 +47,7 @@ const Modal = ({
   const [allDay, setAllDay] = useState(initialAllDay);
   const [category, setCategory] = useState(initialCategory);
 
+  // Todoの項目が変更されたときにフォームの状態を更新
   useEffect(() => {
     setTitle(initialTitle);
     setDescription(initialDescription);
@@ -65,6 +66,7 @@ const Modal = ({
     initialCategory,
   ]);
 
+  // 保存ボタンがクリックされたときの処理
   const handleSaveClick = () => {
     if (title.trim() && priority >= 1 && priority <= 4) {
       onAddTodo(
@@ -81,11 +83,13 @@ const Modal = ({
     }
   };
 
+  // モーダルを閉じる処理
   const handleClose = () => {
     resetForm();
     onClose();
   };
 
+  // フォームを初期状態にリセット
   const resetForm = () => {
     setTitle(initialTitle);
     setDescription(initialDescription);
@@ -96,8 +100,10 @@ const Modal = ({
     setCategory(initialCategory);
   };
 
+  // 必須入力項目が入力されているか確認
   const isFormValid = title.trim() !== "" && priority >= 1 && priority <= 4;
 
+  // モーダルが開いていないときは何も表示しない
   if (!isOpen) return null;
 
   return (
@@ -121,6 +127,7 @@ const Modal = ({
       >
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold">
+            {/* 編集モードかどうかでタイトルを変える */}
             {isEditMode ? "Todoの編集" : "Todoの作成"}
           </h2>
           <button onClick={handleClose} className="text-red-400">

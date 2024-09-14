@@ -12,6 +12,7 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showNavbar] = useState(true);
 
+  // メニューの開閉状態で挙動変更
   useEffect(() => {
     if (isOpen) {
       document.body.classList.add("overflow-hidden");

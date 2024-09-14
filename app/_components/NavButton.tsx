@@ -10,6 +10,7 @@ interface NavButtonProps {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+// 遷移先やアイコンなどを受け取って、ボタンを作成
 const NavButton = ({ icon, label, route, setIsOpen }: NavButtonProps) => {
   const router = useRouter();
 
