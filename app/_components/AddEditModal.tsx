@@ -112,10 +112,10 @@ const Modal = ({
       <div
         className="bg-white p-6 rounded-lg shadow-lg overflow-y-auto"
         style={{
-          width: "calc(100% - 10%)", // 画面幅の90%を使用
-          height: "calc(100% - 10%)", // 画面高さの90%を使用
-          maxWidth: "80vw", // 最大横幅は80%に制限
-          maxHeight: "80vh", // 最大縦幅は80%に制限
+          width: "calc(100% - 10%)",
+          height: "calc(100% - 10%)",
+          maxWidth: "80vw",
+          maxHeight: "80vh",
         }}
         onClick={(e) => e.stopPropagation()}
       >

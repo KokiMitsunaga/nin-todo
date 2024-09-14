@@ -176,6 +176,7 @@ const TodoPage = () => {
         delete newTodos[categoryToEdit];
         return newTodos;
       });
+      setSelectedCategory(newName);
       setCategoryToEdit(null);
     }
   };
