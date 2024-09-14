@@ -6,16 +6,16 @@ export default function TodoSection() {
         <div id="todo-create">
           <h3 className="text-xl font-semibold">作成</h3>
           <ul className="list-disc ml-5">
-            <li>右下のAddボタンからTodoを作成できます。</li>
-            <li>作成時にTitleとPriorityの入力が必須です。</li>
-            <li>Priorityは4が高く、1 が低く設定されています。</li>
+            <li>右下の作成ボタンからTodoを作成できます。</li>
+            <li>作成時にタイトルと優先度の入力が必須です。</li>
+            <li>優先度は4が高く、1が低く設定されています。</li>
           </ul>
         </div>
         <div id="todo-edit">
           <h3 className="text-xl font-semibold">編集</h3>
           <ul className="list-disc ml-5">
             <li>編集したい項目をタップすることで編集ができます。</li>
-            <li>ここでもTitleとPriorityの入力が必須です。</li>
+            <li>ここでもタイトルと優先度の入力が必須です。</li>
           </ul>
         </div>
         <div id="todo-delete">

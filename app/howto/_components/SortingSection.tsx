@@ -7,7 +7,7 @@ export default function SortingSection() {
           <h3 className="text-xl font-semibold">並び替えの種類</h3>
           <ul className="list-disc ml-5">
             <li>
-              右上のセレクトボックスで、「作成順」「期日順」「優先度順」の並び替えができます。
+              右上のセレクトボックスで、「作成順」「期限順」「優先度順」の並び替えができます。
             </li>
           </ul>
         </div>
