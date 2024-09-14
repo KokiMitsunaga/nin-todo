@@ -9,7 +9,7 @@ interface CategoryBarProps {
   onAddCategory: (category: string) => void;
   onSelectCategory: (category: string) => void;
   onEditCategory: (category: string) => void;
-  errorMessage: string | null;
+  errorMessage: string | null; // エラーメッセージ
   setErrorMessage: (message: string | null) => void;
 }
 
@@ -24,6 +24,7 @@ const CategoryBar = ({
 }: CategoryBarProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // カテゴリー追加ボタンがクリックされたときの処理
   const handleAddCategory = (newCategory: string) => {
     onAddCategory(newCategory);
     setIsModalOpen(false);
@@ -37,7 +38,9 @@ const CategoryBar = ({
             <button
               key={index}
               onClick={() => {
+                // 選ばれているカテゴリーをもう一度タップした時の挙動
                 if (selectedCategory === category) {
+                  // TODOカテゴリーは編集しない
                   if (category !== "TODO") {
                     onEditCategory(category);
                   }

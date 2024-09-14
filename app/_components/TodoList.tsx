@@ -18,12 +18,16 @@ const TodoList = ({
   setSelectedTodos,
   categories,
 }: TodoListProps) => {
+  // 編集中のTodo項目のIDを管理
   const [editId, setEditId] = useState<string | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  // 削除対象のTodo項目のIDを管理
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  // 選択されたTodo項目のIDのリストを管理
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
+  // TODOリストが変更されたときに選択されたTodo項目のIDリストをリセット
   useEffect(() => {
     setSelectedIds([]);
   }, [todos.length]);
@@ -33,6 +37,7 @@ const TodoList = ({
     setModalOpen(true);
   };
 
+  // Todo項目を保存する関数
   const handleSaveTodo = (
     title: string,
     description: string,
@@ -70,6 +75,7 @@ const TodoList = ({
     setDeleteModalOpen(false);
   };
 
+  // チェックボックスの状態が変更されたときに選択されたTodoを更新する関数
   const handleCheckboxChange = (id: string) => {
     setSelectedIds((prevSelectedIds) => {
       const newSelectedIds = prevSelectedIds.includes(id)

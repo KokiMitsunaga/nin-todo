@@ -13,6 +13,7 @@ const SortToggleButton = ({
   toggleSortOrder,
 }: SortToggleButtonProps) => {
   return (
+    // ボタンが押されているかどうかで画像を変更している
     <button onClick={toggleSortOrder} className="p-2">
       {sortOrderAsc ? (
         <HiOutlineSortDescending size={24} />
