@@ -10,7 +10,7 @@ interface NavMenuProps {
 
 const NavMenu = ({ setIsOpen }: NavMenuProps) => {
   return (
-    <div className="p-6 bg-white text-black rounded shadow-lg mx-10 w-full flex flex-col gap-6">
+    <div className="p-6 bg-white text-black rounded shadow-lg mx-10 w-full max-w-md h-full max-h-[80vh] flex flex-col gap-6 overflow-y-auto">
       <NavButton
         icon={<FaHome size={24} />}
         label="Home"

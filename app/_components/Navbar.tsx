@@ -18,6 +18,20 @@ const Navbar = () => {
     }, 3000);
   }, []);
 
+  useEffect(() => {
+    // メニューが開いている間、背景のスクロールを無効化
+    if (isOpen) {
+      document.body.classList.add("overflow-hidden");
+    } else {
+      document.body.classList.remove("overflow-hidden");
+    }
+
+    // クリーンアップ
+    return () => {
+      document.body.classList.remove("overflow-hidden");
+    };
+  }, [isOpen]);
+
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
