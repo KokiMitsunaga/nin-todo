@@ -143,7 +143,7 @@ const TodoPage = () => {
       ...prevTodos,
       [selectedCategory]: updatedTodos,
     }));
-    setSelectedTodos([]);
+    setSelectedTodos([]); // Clear selectedTodos after deletion
   };
 
   const handleAddCategory = (category: string) => {

@@ -25,13 +25,8 @@ const TodoList = ({
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
   useEffect(() => {
-    if (selectedIds.length > 0) {
-      const selectedTodos = selectedIds.map(
-        (id) => todos.find((todo) => todo.id === id)!
-      );
-      setSelectedTodos(selectedTodos);
-    }
-  }, [selectedIds, todos]);
+    setSelectedIds([]);
+  }, [todos.length]);
 
   const handleItemClick = (id: string) => {
     setEditId(id);
