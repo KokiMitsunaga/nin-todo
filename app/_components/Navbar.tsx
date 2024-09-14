@@ -54,9 +54,9 @@ const Title = () => {
         ></span>
       </div>
       <div
-        className={`fixed top-0 right-0 w-full h-full bg-gray-50 transition-transform duration-500 ease-in-out ${
+        className={`fixed top-0 right-0 w-full h-full bg-gray-50 transition-transform duration-500 ease-in-out z-10 ${
           isOpen ? "translate-x-0" : "translate-x-full"
-        } flex items-center justify-center`}
+        } flex items-start justify-center pt-32`}
       >
         {isOpen && <NavMenu setIsOpen={setIsOpen} />}
       </div>
