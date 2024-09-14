@@ -18,6 +18,7 @@ const CategoryModal = ({
 }: CategoryModalProps) => {
   const [categoryName, setCategoryName] = useState("");
 
+  // 作成ボタンがクリックされたときの処理
   const handleAdd = () => {
     if (!categoryName.trim()) {
       setErrorMessage("カテゴリー名を入力してください。");
@@ -41,7 +42,7 @@ const CategoryModal = ({
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold">カテゴリーの作成</h2>
+          <h2 className="text-xl font-semibold">カテゴリーの作成</h2>{" "}
           <button
             onClick={() => {
               if (!errorMessage) onClose();

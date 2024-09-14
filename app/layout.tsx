@@ -30,6 +30,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Navbar />
+        {/* Navbarを上部に固定しているため、その分元のページを下げている */}
         <div className="pt-20">{children}</div>
       </body>
     </html>

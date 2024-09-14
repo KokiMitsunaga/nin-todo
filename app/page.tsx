@@ -26,6 +26,7 @@ const TodoPage = () => {
   const [editId, setEditId] = useState<string | null>(null);
 
   useEffect(() => {
+    // ローカルストレージからTodo、カテゴリー、ゴミ箱のTodoを取得
     const savedTodos = localStorage.getItem("todos");
     const savedCategories = localStorage.getItem("categories");
     const savedTrashTodos = localStorage.getItem("trashTodos");
@@ -45,10 +46,12 @@ const TodoPage = () => {
     }
   }, []);
 
+  // Todoが変更されたときにローカルストレージに保存
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos));
   }, [todos]);
 
+  // カテゴリーが変更されたときにローカルストレージに保存
   useEffect(() => {
     localStorage.setItem(
       "categories",
@@ -56,10 +59,12 @@ const TodoPage = () => {
     );
   }, [categories]);
 
+  // ゴミ箱のTodoが変更されたときにローカルストレージに保存
   useEffect(() => {
     localStorage.setItem("trashTodos", JSON.stringify(trashTodos));
   }, [trashTodos]);
 
+  // Todoを追加する処理
   const addTodo = (
     title: string,
     description: string,
@@ -87,6 +92,7 @@ const TodoPage = () => {
     setEditId(null);
   };
 
+  // Todoを更新する処理
   const updateTodo = (id: string, updatedTodo: Todo) => {
     const previousCategory = todos[selectedCategory].find(
       (todo) => todo.id === id
@@ -114,6 +120,7 @@ const TodoPage = () => {
     setEditId(null);
   };
 
+  // Todoを削除する処理
   const removeTodo = (id: string) => {
     const removedTodo = todos[selectedCategory].find((todo) => todo.id === id);
     if (removedTodo) {
@@ -130,6 +137,7 @@ const TodoPage = () => {
     }
   };
 
+  // 選択されたTodo項目を削除する処理
   const removeSelectedTodos = () => {
     const updatedTodos = todos[selectedCategory].filter(
       (todo) => !selectedTodos.includes(todo)
@@ -146,6 +154,7 @@ const TodoPage = () => {
     setSelectedTodos([]);
   };
 
+  // カテゴリーを追加する処理
   const handleAddCategory = (category: string) => {
     if (categories.includes(category)) {
       setErrorMessage("このカテゴリー名は既に存在します。");
@@ -160,6 +169,7 @@ const TodoPage = () => {
     setSelectedCategory(category);
   };
 
+  // カテゴリーを編集する処理
   const handleEditCategory = (newName: string) => {
     if (categoryToEdit === "TODO") return;
     if (categories.includes(newName)) {
@@ -181,6 +191,7 @@ const TodoPage = () => {
     }
   };
 
+  // カテゴリーを削除する処理
   const handleDeleteCategory = () => {
     if (categoryToEdit === "TODO") return;
     if (categoryToEdit) {
@@ -203,7 +214,9 @@ const TodoPage = () => {
     }
   };
 
+  // Todo項目をソートする処理
   const sortTodos = (todosList: Todo[], sortMethod: string) => {
+    // 日付なしのものがうまくソートできなかったため、仮に先の日付を登録
     const FUTURE_DATE = new Date("2999-12-31").getTime();
 
     let sortedTodos: Todo[];

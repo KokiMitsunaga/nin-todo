@@ -15,6 +15,7 @@ const TrashPage = () => {
   const [selectedTodos, setSelectedTodos] = useState<Todo[]>([]);
 
   useEffect(() => {
+    // ローカルストレージからゴミ箱のTodoとカテゴリーを取得
     const savedTrashTodos = localStorage.getItem("trashTodos");
     const savedCategories = localStorage.getItem("categories");
 
@@ -24,6 +25,7 @@ const TrashPage = () => {
 
     let loadedCategories = savedCategories ? JSON.parse(savedCategories) : [];
 
+    // カテゴリーに"TODO"が含まれていない場合は追加
     if (!loadedCategories.includes("TODO")) {
       loadedCategories = ["TODO", ...loadedCategories];
     }
@@ -31,6 +33,7 @@ const TrashPage = () => {
     setCategories(loadedCategories);
   }, []);
 
+  // Todo項目を復元するための処理
   const handleRestoreClick = (index: number) => {
     setSelectedIndex(index);
     setRestoreModalOpen(true);
@@ -44,6 +47,7 @@ const TrashPage = () => {
     }
   };
 
+  // Todo項目を選択されたカテゴリーに復元する処理
   const restoreTodo = (selectedCategory: string) => {
     if (selectedIndex !== null) {
       const restoredTodo = trashTodos[selectedIndex];
@@ -57,6 +61,7 @@ const TrashPage = () => {
         ],
       };
 
+      // 復元したTodo項目が"TODO"カテゴリーに復元された場合、カテゴリーを"TODO"に変更
       if (selectedCategory === "TODO") {
         updatedTodos["TODO"] = updatedTodos["TODO"].map((todo: Todo) => ({
           ...todo,
@@ -66,6 +71,7 @@ const TrashPage = () => {
 
       localStorage.setItem("todos", JSON.stringify(updatedTodos));
 
+      // ゴミ箱から復元されたTodo項目を削除
       const updatedTrashTodos = trashTodos.filter(
         (_, i) => i !== selectedIndex
       );
@@ -77,6 +83,7 @@ const TrashPage = () => {
     }
   };
 
+  // 選択されたTodo項目を削除する処理
   const permanentlyDeleteSelectedTodos = () => {
     const updatedTrashTodos = trashTodos.filter(
       (todo) => !selectedTodos.includes(todo)
